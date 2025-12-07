@@ -40,6 +40,9 @@ export default function Home() {
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-12">
                   
                   <div className="space-y-4">
+                    <div className="flex items-center ">
+                      <img src="/logo.png" alt="" className="h-22 grayscale scale-x-[-1] "/>
+                    </div>
                     <p className="max-w-xs text-neutral-400 text-sm leading-relaxed">
                       A graduation project by FCIT students at King Abdulaziz University. 
                       Predicting Alzheimer's progression with multimodal deep learning.
