@@ -24,6 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/logo.png" type="image/svg+xml" className="grayscale scale-x-[-1]" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

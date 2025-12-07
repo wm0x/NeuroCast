@@ -147,7 +147,7 @@ const AboutUsSection = () => {
           >
             <div className="relative z-10">
               <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-black bg-neutral-50 text-3xl font-bold text-black">
-                J
+                <img src="https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=Brian" alt="" className="rounded-full" />
               </div>
               <h3 className="font-geist mb-1 text-2xl font-bold tracking-tight text-black md:text-3xl">
                 Jasser
