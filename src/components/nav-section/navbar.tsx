@@ -19,25 +19,25 @@ function NavbarDemo() {
   const navItems = [
     {
       name: "Home",
-      link: "#",
+      link: "#home",
     },
     {
       name: "Features",
-      link: "#",
+      link: "#features",
     },
     {
       name: "FAQ",
-      link: "#",
+      link: "#faq",
     },
 
     {
       name: "About Us",
-      link: "#",
+      link: "#aboutus",
     },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  
   return (
     <div className="absolute w-full">
       <TextFade direction="down" className="">

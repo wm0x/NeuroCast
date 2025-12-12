@@ -13,15 +13,15 @@ export default function Home() {
         <NavbarDemo />
       </header>
 
-      <div className="w-full px-2 md:px-10 py-10 rounded-2xl overflow-hidden">
+      <div className="w-full px-2 md:px-10 py-10 rounded-2xl overflow-hidden" id="home">
         <Hero />
       </div>
 
-      <section>
+      <section id="features">
         <Features />
       </section>
 
-      <section className="w-full px-2 md:px-10 py-10 rounded-2xl">
+      <section className="w-full px-2 md:px-10 py-10 rounded-2xl" id="faq">
         <FAQ />
       </section>
 
@@ -29,7 +29,7 @@ export default function Home() {
         <footer>
           <div className="w-full h-full">
             
-            <div className="relative z-10 bg-[#f7f7f7] shadow-2xl rounded-b-3xl">
+            <div className="relative z-10 bg-[#f7f7f7] shadow-2xl rounded-b-3xl" id="aboutus">
               <AboutUsSection />
             </div>
 
