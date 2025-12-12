@@ -7,11 +7,12 @@ import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa"; // Make sure t
 
 export default function Home() {
   return (
-    <div className="items-center justify-center bg-[#f7f7f7]" dir="ltr">
+    <div className="items-center justify-center bg-[#f7f7f7]" dir="ltr" >
 
-      <header className="sticky top-0 z-999">
+      <header className="sticky top-0 z-40">
         <NavbarDemo />
       </header>
+      
 
       <div className="w-full px-2 md:px-10 py-10 rounded-2xl overflow-hidden" id="home">
         <Hero />
