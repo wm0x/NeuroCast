@@ -240,7 +240,11 @@ export const NavbarLogo = () => {
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
       <Image src={"/logo.png"} alt={"logo"} width={45} height={45} className="grayscale scale-x-[-1]" />
+<<<<<<< HEAD
       <span className="text-2xl font-black">Neurocast.</span>
+=======
+      <span className="text-2xl font-black">Neurocast</span>
+>>>>>>> master
       <span className="ml-10 font-bold text-2xl">/</span>
     </a>
   );

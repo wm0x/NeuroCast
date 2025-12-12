@@ -29,6 +29,13 @@ function NavbarDemo() {
       name: "FAQ",
       link: "#",
     },
+<<<<<<< HEAD
+=======
+    {
+      name: "About Us",
+      link: "#",
+    },
+>>>>>>> master
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
