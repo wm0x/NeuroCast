@@ -7,17 +7,10 @@ export default function CallToAction() {
       className="group relative flex flex-row items-center p-1 pr-3 mt-10 md:mt-0 gap-2 rounded-full border border-neutral-400/15 hover:border-neutral-400/30 shadow-2xs hover:shadow-2xs overflow-hidden focus-visible:outline-hidden focus-visible:ring-neutral-600 focus-visible:ring-2 focus-visible:rounded-full transition duration-100 bg-neutral-400/5 hover:bg-neutral-400/10 md:text-lg text-xs"
     >
       <div className="inline-flex items-center bg-brand dark:text-neutral-300 text-neutral-600 border border-violet-400/20 px-3 rounded-full text-sm py-1 bg-neutral-400/20">
-<<<<<<< HEAD
-        New version
-      </div>
-      <span className="dark:text-neutral-400 text-neutral-500">
-        Check out the new features
-=======
         Beta v1.0
       </div>
       <span className="dark:text-neutral-400 text-neutral-500">
         Get Started
->>>>>>> master
       </span>
       <ArrowRightIcon className="dark:text-neutral-400 text-neutral-500 size-5 group-hover:translate-x-1 transition-transform duration-100" />
       <div className="absolute inset-0 -z-10 bg-linear-to-br opacity-70 group-hover:opacity-100 transition-opacity overflow-hidden rounded-full from-violet-100 to-violet-300 backdrop-blur-md" />
