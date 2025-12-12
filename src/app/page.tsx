@@ -8,11 +8,8 @@ import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa"; // Make sure t
 export default function Home() {
   return (
     <div className="items-center justify-center bg-[#f7f7f7]" dir="ltr">
-<<<<<<< HEAD
-      <header className="sticky top-0 z-[999]">
-=======
+
       <header className="sticky top-0 z-999">
->>>>>>> master
         <NavbarDemo />
       </header>
 
@@ -38,12 +35,7 @@ export default function Home() {
 
             <div className="sticky z-0 bottom-0 left-0 px-2 md:px-10 pb-10 pt-4">
               <div className="relative w-full min-h-[500px] bg-black flex flex-col justify-between px-8 md:px-16 py-12 rounded-3xl overflow-hidden text-[#fcfcfc]">
-                
-<<<<<<< HEAD
-                <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-=======
-                <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
->>>>>>> master
+                                <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-12">
                   
