@@ -46,7 +46,7 @@ function Hero() {
   <div className="space-y-5 sm:space-y-6 pt-4">
     {/* Feature 1 */}
     <div className="flex gap-3 sm:gap-4">
-      <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-foreground/10 flex items-center justify-center">
+      <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-foreground/10 flex items-center justify-center">
         {/* Brain/Data Icon */}
         <svg
           className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground"
@@ -71,7 +71,7 @@ function Hero() {
 
     {/* Feature 2 */}
     <div className="flex gap-3 sm:gap-4">
-      <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-foreground/10 flex items-center justify-center">
+      <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-foreground/10 flex items-center justify-center">
         {/* Chart/Trending Icon */}
         <svg
           className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground"

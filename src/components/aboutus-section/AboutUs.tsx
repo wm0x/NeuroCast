@@ -63,7 +63,7 @@ const AboutUsSection = () => {
     <main className="w-full bg-[#f7f7f7]">
       <div
         ref={targetRef}
-        className="relative box-border flex h-[100vh] items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
+        className="relative box-border flex h-screen items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
       >
         <div
           className="font-geist w-full max-w-4xl text-center text-6xl font-bold uppercase tracking-tighter text-black"
