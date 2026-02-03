@@ -87,7 +87,7 @@ function NavbarDemo() {
                 <NavbarButton
                   variant="primary"
                   className="rounded-lg text-black hover:bg-gray-50 flex gap-1 items-center justify-between"
-                  href="/mahsoob"
+                  href="/"
                 >
                   Try Now 
                   <MdArrowForwardIos className="mt-0.5" /> 
