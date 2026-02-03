@@ -40,3 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 *.pth
+src/backend/NeuroCast_Regression_MAE_1.96.pth
