@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -104,7 +106,7 @@ const AboutUsSection = () => {
           className="font-geist flex items-center justify-center gap-2 text-lg font-medium tracking-tight text-neutral-600 md:gap-3 md:text-2xl"
         >
           <Bracket className="h-8 text-black md:h-12" />
-          <span className="font-geist font-medium">meet the team</span>
+          <span className="font-geist font-medium">the team</span>
           <Bracket className="h-8 scale-x-[-1] text-black md:h-12" />
         </motion.p>
 
@@ -128,7 +130,7 @@ const AboutUsSection = () => {
                 Ali
               </h3>
               <p className="mb-3 text-sm font-medium uppercase tracking-wider text-neutral-500">
-                Manager & Full Stack
+                Leader & Full Stack
               </p>
               <p className="font-geist text-sm leading-relaxed text-neutral-600 md:text-base">
                 Leading the team with vision and technical expertise, building

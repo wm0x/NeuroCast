@@ -8,22 +8,22 @@ const faqData = [
   {
     question: "How is this different from existing diagnosis tools?",
     answer:
-      "Most current models focus only on classification (diagnosing sick vs. healthy)[cite: 22]. [cite_start]Our system is the first to focus on 'Progression Forecasting', using longitudinal data to predict exactly how the disease will evolve over time rather than just providing a single snapshot[cite: 25].",
+      "Most current models focus only on classification (diagnosing sick vs. healthy). Our system is the first to focus on 'Progression Forecasting', using longitudinal data to predict exactly how the disease will evolve over time rather than just providing a single snapshot.",
   },
   {
     question: "What specific data does the AI analyze?",
     answer:
-      "We use a multimodal approach. [cite_start]The model analyzes time-invariant genetics (like APOE ε4), longitudinal biomarkers (MRI volumes, PET scans), and clinical notes processed via NLP to capture specific symptom descriptions[cite: 34, 36, 49, 63].",
+      "We use a multimodal approach. The model analyzes time-invariant genetics (like APOE ε4), longitudinal biomarkers (MRI volumes, PET scans), and clinical notes processed via NLP to capture specific symptom descriptions.",
   },
   {
     question: "How does this benefit patients and families?",
     answer:
-      "By providing personalized progression forecasts, we enable better family preparedness. [cite_start]Caregivers can set realistic expectations and make appropriate legal and financial plans before the disease reaches advanced stages[cite: 106].",
+      "By providing personalized progression forecasts, we enable better family preparedness. Caregivers can set realistic expectations and make appropriate legal and financial plans before the disease reaches advanced stages.",
   },
   {
     question: "How will this be implemented in hospitals?",
     answer:
-      "The system is designed to integrate directly into neurology workflows via Electronic Medical Records (EMR)[cite: 108]. [cite_start]It also supports clinical trial enrichment by identifying ideal candidates for specific trial phases[cite: 106].",
+      "The system is designed to integrate directly into neurology workflows via Electronic Medical Records (EMR). It also supports clinical trial enrichment by identifying ideal candidates for specific trial phases.",
   },
 ];
 

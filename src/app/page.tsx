@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { AboutUsSection } from "@/components/aboutus-section/AboutUs";
 import FAQ from "@/components/faq-section/FAQ";
 import Features from "@/components/features-section/features";
 import Hero from "@/components/hero-section/hero";
 import NavbarDemo from "@/components/nav-section/navbar";
-import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa"; // Make sure to install react-icons
+import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa"; 
 
 export default function Home() {
   return (
@@ -46,7 +47,7 @@ export default function Home() {
                     </div>
                     <p className="max-w-xs text-neutral-400 text-sm leading-relaxed">
                       A graduation project by FCIT students at King Abdulaziz University. 
-                      Predicting Alzheimer's progression with multimodal deep learning.
+                      Predicting Alzheimer&apos;s progression with multimodal deep learning.
                     </p>
                   </div>
 

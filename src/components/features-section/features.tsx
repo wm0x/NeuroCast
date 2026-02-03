@@ -11,7 +11,7 @@ function Features() {
           Harnessing the power of Artificial Intelligence to detect subtle
           patterns in cognitive health. Our deep learning models transform
           complex medical data into actionable insights, offering a proactive
-          approach to Alzheimer's risk assessment and management[cite: 3].
+          approach to Alzheimer&apos;s risk assessment and management.
         </span>
       </div>
 
@@ -38,7 +38,7 @@ function Features() {
             model incorporates longitudinal data to predict individual decline
             trajectories. We analyze changes in cognitive scores (MMSE, CDR)
             over time to forecast future disease stages with high
-            precision[cite: 6, 25, 50].
+            precision.
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@ function Features() {
             Multimodal Data Fusion
           </h3>
           <p className="text-xl font-light text-neutral-400 leading-relaxed">
-            Our architecture doesn't rely on a single source. It fuses diverse
+            Our architecture doesn&apos;t rely on a single source. It fuses diverse
             clinical data points to create a holistic view of patient health:
           </p>
 
@@ -58,14 +58,14 @@ function Features() {
               <div className="text-2xl mb-2">🧬</div>
               <div className="font-bold text-black">Genetic Factors</div>
               <div className="text-sm text-neutral-500 mt-1">
-                APOE ε4 & Family History [cite: 38]
+                APOE ε4 & Family History 
               </div>
             </div>
             <div className="flex-1 p-6 rounded-2xl border transition-colors shadow hover:bg-black/5">
               <div className="text-2xl mb-2">📝</div>
               <div className="font-bold text-black">Clinical NLP</div>
               <div className="text-sm text-neutral-500 mt-1">
-                Symptom extraction from notes [cite: 63]
+                Symptom extraction from notes 
               </div>
             </div>
           </div>

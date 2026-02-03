@@ -111,7 +111,6 @@ export function ExpandableScreenTrigger({
     <AnimatePresence initial={false}>
       {!isExpanded && (
         <motion.div className={`inline-block relative ${className}`}>
-          {/* Background layer with shared layoutId for morphing */}
           <motion.div
             style={{
               borderRadius: triggerRadius,
@@ -120,7 +119,6 @@ export function ExpandableScreenTrigger({
             layoutId={layoutId}
             className="absolute inset-0 transform-gpu will-change-transform"
           />
-          {/* Content layer that fades out on expand */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -159,7 +157,6 @@ export function ExpandableScreenContent({
     <AnimatePresence initial={false}>
       {isExpanded && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-2">
-          {/* Morphing background with shared layoutId */}
           <motion.div
             layoutId={layoutId}
             transition={{ duration: animationDuration }}

@@ -49,7 +49,7 @@ function NavbarDemo() {
               <NavbarButton
                 variant="primary"
                 className="rounded-lg text-black hover:bg-gray-50 flex gap-1 items-center"
-                href="/mahsoob"
+                href="/"
               >
                 Try Now{" "}
                 <CgArrowLongRight className="mt-0.5" />

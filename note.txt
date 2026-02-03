@@ -14,7 +14,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Ali",
-    role: "Manager",
+    role: "Leader",
     description: "Visionary leadership & strategy.",
     image: "https://api.dicebear.com/9.x/avataaars/svg?seed=Ali&clothing=blazerAndShirt",
   },
