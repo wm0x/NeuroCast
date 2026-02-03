@@ -61,11 +61,9 @@ export default function Home() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-bold text-white mb-4">Connect</h4>
+                        <h4 className="font-bold text-white mb-4">source code</h4>
                         <ul className="space-y-2 text-neutral-400 text-sm">
                             <li className="hover:text-white hover:translate-x-1 transition-all cursor-pointer flex items-center gap-2"><FaGithub/> Github</li>
-                            <li className="hover:text-white hover:translate-x-1 transition-all cursor-pointer flex items-center gap-2"><FaLinkedin/> LinkedIn</li>
-                            <li className="hover:text-white hover:translate-x-1 transition-all cursor-pointer flex items-center gap-2"><FaTwitter/> Twitter</li>
                         </ul>
                     </div>
                   </div>
