@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 *.pth
 src/backend/NeuroCast_Regression_MAE_1.96.pth
+
+/src/generated/prisma
