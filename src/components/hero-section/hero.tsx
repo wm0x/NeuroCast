@@ -166,7 +166,7 @@ export default function Hero() {
       // 💡 تذكير: تأكد أن الرابط هنا هو رابط Vercel الخاص بالباك إند إذا كنت سترفعه للإنترنت
       // بدلاً من 127.0.0.1
       const aiResponse = await fetch(
-        "https://neuro-cast-git-main-wm0xs-projects.vercel.app/predict",
+        "https://neuro-cast-api.vercel.app/predict",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
