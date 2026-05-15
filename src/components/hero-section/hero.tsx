@@ -146,17 +146,15 @@ export default function Hero() {
     }, 800);
 
     try {
-      await fetch("/api/patients/save-visit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // ─── تم إزالة كود حفظ الزيارة في الداتابيز (save-visit) ───
 
       const geneExpressionArray = [
         Number(formData.AQP7), Number(formData.RPS5), Number(formData.CHD2),
         Number(formData.SNX5), Number(formData.ASS1), Number(formData.Unchar),
       ];
 
+      // 💡 تذكير: تأكد أن الرابط هنا هو رابط Vercel الخاص بالباك إند إذا كنت سترفعه للإنترنت
+      // بدلاً من 127.0.0.1
       const aiResponse = await fetch("http://127.0.0.1:5000/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
