@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is your Prisma schema file
 
 generator client {
   provider = "prisma-client-js"
@@ -13,8 +9,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 1. تحديد أنواع الصلاحيات في النظام
+enum Role {
+  ADMIN
+  DOCTOR
+  GUEST
+}
 
+// 2. جدول المستخدمين (الأطباء، المدراء)
+model User {
+  id          String    @id @default(cuid())
+  username    String    @unique
+  password    String    // يتم حفظها مشفرة (Hashed)
+  name        String    // اسم الدكتور أو المدير
+  role        Role      @default(GUEST)
+  totpSecret  String?   // حفظ كود المصادقة الثنائية 2FA
+  createdAt   DateTime  @default(now())
+  
+  // علاقة: الدكتور يمكن أن يكون لديه عدة مرضى
+  patients    Patient[] 
+}
 
+// 3. جدول المرضى
 model Patient {
   id              String   @id @default(cuid())
   patientId       String   @unique 
@@ -23,9 +39,14 @@ model Patient {
   educationYears  Int?
   createdAt       DateTime @default(now())
   
+  // ربط المريض بالدكتور المسؤول عنه
+  doctorId        String?
+  doctor          User?    @relation(fields: [doctorId], references: [id])
+  
   visits          Visit[]
 }
 
+// 4. جدول الزيارات (السجل الطبي)
 model Visit {
   id              String   @id @default(cuid())
   patient         Patient  @relation(fields: [patientId], references: [patientId])
@@ -34,16 +55,25 @@ model Visit {
   visitDate       DateTime @default(now())
   ageAtVisit      Float
   
+  // المؤشرات السريرية
   mmse            Float
   cdrsb           Float
   hippocampusVol  Float?  
   abeta           Float?
   tau             Float?
   
+  // المؤشرات الجينية (تمت إضافتها لأهميتها في التنبؤ)
+  aqp7            Float?
+  rps5            Float?
+  chd2            Float?
+  snx5            Float?
+  ass1            Float?
+  unchar          Float?
+  
+  // نتائج الذكاء الاصطناعي
   prediction      String?  
   confidence      Float?   
   maeAtVisit      Float    @default(0.3907) 
 
   @@index([patientId, visitDate]) 
 }
-

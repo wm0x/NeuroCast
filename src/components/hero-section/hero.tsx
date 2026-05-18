@@ -24,6 +24,7 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "@radix-ui/react-label";
 import { DualRangeSlider } from "../ui/slider";
+import LoginForm from "../auth-section/form/lognForm";
 
 // --- Interfaces ---
 interface PredictionResult {
@@ -142,7 +143,7 @@ export default function Hero() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setResult(null); // مسح النتيجة القديمة عند بدء تحليل جديد
+    setResult(null); 
 
     // محاكاة خطوات الذكاء الاصطناعي (Wow Factor)
     let stepIndex = 0;
@@ -163,7 +164,6 @@ export default function Hero() {
         Number(formData.Unchar),
       ];
 
-      // 💡 تذكير: تأكد أن الرابط هنا هو رابط Vercel الخاص بالباك إند إذا كنت سترفعه للإنترنت
       // بدلاً من 127.0.0.1
       const aiResponse = await fetch(
         "https://neuro-cast-api.vercel.app/predict",
@@ -209,22 +209,7 @@ export default function Hero() {
 
   return (
     <div className="relative flex flex-col min-h-screen items-center justify-center px-10 bg-black w-full rounded-2xl mt-10 pb-32">
-      {/* ستايل مخصص للطباعة (يخفي كل شيء ما عدا النتيجة) */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        @media print {
-          body * { visibility: hidden; }
-          .print-section, .print-section * { visibility: visible; }
-          .print-section { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
-          .no-print { display: none !important; }
-        }
-      `,
-        }}
-      />
-
       <CallToAction />
-
       <div className="text-white mt-10 text-4xl text-center items-center">
         Empowering Early Alzheimer’s Detection with AI
         <span className="flex mt-5 text-xl text-neutral-400 justify-center">
@@ -249,7 +234,6 @@ export default function Hero() {
 
             <ExpandableScreenContent className="bg-[#FDFBF7] shadow-2xl border border-[#EAE5D9]">
               <div className="relative z-10 flex flex-col lg:flex-row w-full max-w-[1400px] mx-auto items-start">
-                {/* ─── الجانب الأيسر: العنوان الرئيسي ─── */}
                 <div className="w-full lg:flex-1 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-center p-6 lg:p-12 z-20 text-slate-800 max-w-2xl mx-auto no-print">
                   <div className="flex flex-col items-start justify-center gap-6 mb-8 mx-auto">
                     <img
@@ -264,7 +248,6 @@ export default function Hero() {
                     <span className="text-blue-600">Alzheimer&apos;s</span>
                   </h2>
 
-                  {/* Metrics Grid */}
                   <div className="space-y-4">
                     <div className="grid grid-cols-3 gap-3">
                       <div className="bg-white border border-slate-200/60 shadow-sm rounded-2xl p-4 flex flex-col justify-center">
@@ -293,7 +276,6 @@ export default function Hero() {
                       </div>
                     </div>
 
-                    {/* Six-Probe Panel Summary */}
                     <div className="bg-white border border-slate-200/60 shadow-sm rounded-3xl overflow-hidden flex flex-col text-2xl">
                       <div className="px-5 py-3.5 bg-slate-50/50 border-b border-slate-100 flex justify-between items-center">
                         <h3 className="text-xs font-bold text-slate-700 uppercase tracking-widest">
@@ -312,7 +294,6 @@ export default function Hero() {
                       </div>
 
                       <div className="p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {/* AQP7 */}
                         <div className="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all">
                           <div className="flex items-center gap-2.5">
                             <div className="w-1 h-8 rounded-full bg-red-400" />
@@ -445,6 +426,9 @@ export default function Hero() {
                     onSubmit={handleSubmit}
                     className="space-y-8 text-start w-full max-w-2xl mx-auto"
                   >
+                    <LoginForm>
+                      
+                    </LoginForm>
                     {/* Patient ID */}
                     {/* <div className="bg-white p-6 rounded-3xl border border-[#EAE5D9] shadow-[0_8px_30px_rgb(0,0,0,0.04)] no-print">
                       <Label className="block text-[10px] font-bold mb-4 tracking-widest uppercase text-slate-400">
@@ -476,7 +460,7 @@ export default function Hero() {
                     </div> */}
 
                     {/* Genes Sliders */}
-                    {!isVerified && (
+                    {/* {!isVerified && (
                       <div className="space-y-6 pt-4 animate-in fade-in duration-700 no-print">
                         <div>
                           <h3 className="text-xl font-bold text-slate-800 mb-1">
@@ -486,9 +470,9 @@ export default function Hero() {
                             Adjust the biological markers based on the recent
                             lab results.
                           </p>
-                        </div>
+                        </div> */}
                         {/* صف 1 */}
-                        <div className="flex flex-col sm:flex-row gap-5">
+                        {/* <div className="flex flex-col sm:flex-row gap-5">
                           <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
                             <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
                               AQP7{" "}
@@ -529,9 +513,9 @@ export default function Hero() {
                               tickCount={31}
                             />
                           </div>
-                        </div>
+                        </div> */}
                         {/* صف 2 */}
-                        <div className="flex flex-col sm:flex-row gap-5">
+                        {/* <div className="flex flex-col sm:flex-row gap-5">
                           <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
                             <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
                               CHD2{" "}
@@ -572,9 +556,9 @@ export default function Hero() {
                               tickCount={31}
                             />
                           </div>
-                        </div>
+                        </div> */}
                         {/* صف 3 */}
-                        <div className="flex flex-col sm:flex-row gap-5">
+                        {/* <div className="flex flex-col sm:flex-row gap-5">
                           <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
                             <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
                               ASS1{" "}
@@ -618,9 +602,9 @@ export default function Hero() {
                               tickCount={31}
                             />
                           </div>
-                        </div>
+                        </div> */}
 
-                        <Button
+                        {/* <Button
                           type="submit"
                           disabled={loading}
                           className="w-full px-8 py-4 rounded-2xl bg-blue-600 text-white font-bold text-lg hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30 transition-all h-16 mt-8 relative overflow-hidden group"
@@ -638,24 +622,22 @@ export default function Hero() {
                               <IoIosArrowForward className="group-hover:translate-x-1 transition-transform" />
                             </span>
                           )}
-                        </Button>
-                      </div>
-                    )}
+                        </Button> */}
+                      {/* </div>
+                    )} */}
 
                     {/* 🏆 THE WOW FACTOR: RESULT SECTION 🏆 */}
-                    {result && (
+                    {/* {result && (
                       <div
                         ref={resultRef}
                         className="print-section space-y-6 animate-in slide-in-from-bottom-8 fade-in duration-700 mt-10"
                       >
-                        {/* Header with Print Button */}
                         <div className="flex justify-between items-center no-print">
                           <h2 className="text-2xl font-bold text-slate-800">
                             Clinical AI Report
                           </h2>
                         </div>
 
-                        {/* البطاقة تشع بوهج ديناميكي بناءً على لون الخطورة */}
                         <div
                           className="bg-white border p-6 sm:p-8 rounded-[2rem] relative overflow-hidden transition-all duration-1000"
                           style={{
@@ -663,7 +645,6 @@ export default function Hero() {
                             boxShadow: `0 20px 50px -10px ${result.risk_stratification.color}30`,
                           }}
                         >
-                          {/* تأثير بصري في الخلفية (Watermark) */}
                           <div
                             className="absolute -right-10 -top-10 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
                             style={{
@@ -733,7 +714,6 @@ export default function Hero() {
                           </div>
                         </div>
 
-                        {/* الرسم البياني XAI */}
                         {result?.gene_contributions && (
                           <div className="bg-white border border-[#EAE5D9] shadow-sm p-6 sm:p-8 rounded-[2rem]">
                             <div className="flex justify-between items-center mb-8">
@@ -810,7 +790,7 @@ export default function Hero() {
                           </div>
                         )}
                       </div>
-                    )}
+                    )} */}
                   </form>
                 </div>
               </div>
