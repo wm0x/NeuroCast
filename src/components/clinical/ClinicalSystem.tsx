@@ -20,6 +20,8 @@ export default function ClinicalSystem() {
   const [isNewPatient, setIsNewPatient] = useState(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [pastVisits, setPastVisits] = useState<VisitRecord[]>([]);
+  
+  // هذا السطر صحيح 100% ولا يحتاج أي تعديل
   const resultRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
@@ -28,7 +30,6 @@ export default function ClinicalSystem() {
     AQP7: 3.75, RPS5: 11.25, CHD2: 8.25, SNX5: 8.3, ASS1: 7.5, Unchar: 4.0,
   });
 
-  // 1. إضافة دالة التحديث التي كانت مفقودة
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -36,7 +37,6 @@ export default function ClinicalSystem() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 2. إضافة دالة التحقق من المريض
   const handleVerifyID = async () => {
     if (!formData.patient_id) {
       alert("Please enter a Patient ID first.");
@@ -124,17 +124,7 @@ export default function ClinicalSystem() {
     <div className="w-full lg:flex-1 p-6 sm:p-10 lg:p-16 lg:min-h-screen flex flex-col justify-center border-l border-[#EAE5D9]">
       <form onSubmit={handleSubmit} className="space-y-8 text-start w-full max-w-2xl mx-auto">
         
-        {/* قسم التحقق من المريض */}
-
-
-        {/* يمكنك إعادة مكونات الجينات (Sliders) هنا داخل هذا الشرط لو أردت */}
-        {/* {!isVerified && (
-          <div className="space-y-6 pt-4 animate-in fade-in duration-700 no-print">
-            ... Sliders ...
-          </div>
-        )} */}
-
-        {/* زر إرسال الطلب للذكاء الاصطناعي (كان مفقوداً) */}
+        {/* زر إرسال الطلب للذكاء الاصطناعي */}
         <button
           type="submit"
           disabled={loading || !isVerified}

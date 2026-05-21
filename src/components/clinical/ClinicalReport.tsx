@@ -15,7 +15,7 @@ import { PredictionResult } from "../../../types/clinical";
 
 interface Props {
   result: PredictionResult;
-  resultRef: React.RefObject<HTMLDivElement>;
+  resultRef: React.Ref<HTMLDivElement>; // هذا هو الحل السحري!
 }
 
 export default function ClinicalReport({ result, resultRef }: Props) {
