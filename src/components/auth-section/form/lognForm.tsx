@@ -32,9 +32,14 @@ const OtpSchema = z.object({
   code: z.string().min(6, { message: "Must be exactly 6 digits" }),
 });
 
-type Role = "DOCTOR" | "ADMIN" | "GUEST" | null;
+export type Role = "DOCTOR" | "ADMIN" | "GUEST" | null;
 
-function LoginForm() {
+// إضافة الـ Props للتواصل مع صفحة الهيرو
+interface LoginFormProps {
+  onLoginSuccess: (role: Role) => void;
+}
+
+export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const router = useRouter();
 
   // States
@@ -50,7 +55,9 @@ function LoginForm() {
   const [otpCode, setOtpCode] = useState("");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
-  const [actionResult, setActionResult] = useState<"SIGN_IN_SUCCESS" | null>(null);
+  const [actionResult, setActionResult] = useState<"SIGN_IN_SUCCESS" | null>(
+    null
+  );
   const [userData, setUserData] = useState<{ name: string } | null>(null);
 
   // Forms
@@ -77,8 +84,14 @@ function LoginForm() {
     }
   };
 
-  // Function to handle role selection and move to the next step immediately
+  // تعديل الدالة لكي تتخطى تسجيل الدخول للـ Guest
   const handleRoleSelection = (role: Role) => {
+    if (role === "GUEST") {
+      // إرسال النجاح فوراً للهيرو ليخفي صفحة تسجيل الدخول ويعرض صفحة الـ Guest
+      onLoginSuccess("GUEST");
+      return;
+    }
+
     setSelectedRole(role);
     setErrorMsg("");
     setCurrentStep(2);
@@ -96,7 +109,6 @@ function LoginForm() {
     setCurrentStep(1);
   };
 
-  // Function to verify login credentials
   const checkCredentials = async (values: z.infer<typeof LoginSchema>) => {
     setLoading(true);
     setErrorMsg("");
@@ -105,14 +117,13 @@ function LoginForm() {
     setOtpCode("");
 
     try {
-      // Update the URL or body according to your API endpoint
       const res = await fetch("/api/auth/check-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          username: values.username, 
+        body: JSON.stringify({
+          username: values.username,
           password: values.password,
-          role: selectedRole 
+          role: selectedRole,
         }),
       });
 
@@ -133,7 +144,7 @@ function LoginForm() {
         } else {
           setTempSecret("");
         }
-        setCurrentStep(3); // Move to OTP step
+        setCurrentStep(3);
       });
     } catch (error) {
       setErrorMsg("Server connection error.");
@@ -169,7 +180,12 @@ function LoginForm() {
         setUserData(data.user);
         setActionResult("SIGN_IN_SUCCESS");
         playSound("success");
-        setCurrentStep(4); // Move to the final success step
+        setCurrentStep(4);
+
+        // إعطاء المستخدم فرصة لرؤية رسالة "Login Successful" لمدة ثانيتين ثم إخفاء الهيرو
+        setTimeout(() => {
+          if (selectedRole) onLoginSuccess(selectedRole);
+        }, 2000);
       } else {
         setErrorMsg("Invalid code. Please try again.");
         playSound("error");
@@ -187,34 +203,19 @@ function LoginForm() {
       loginForm.handleSubmit(checkCredentials)();
     } else if (currentStep === 3) {
       verifyOtpAndLogin();
-    } else if (currentStep === 4) {
-      resetSystem();
     }
   };
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    if (currentStep === 4) {
-      timer = setTimeout(() => {
-        resetSystem();
-        // router.push("/dashboard"); // Uncomment this to redirect automatically after success
-      }, 5000);
-    }
-
-    return () => clearTimeout(timer);
-  }, [currentStep]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (currentStep !== 1) handleNextStep(); // Ignore Enter key on the role selection step
+      if (currentStep !== 1) handleNextStep();
     }
   };
 
   return (
     <div
-      className="dark:bg-neutral-950 flex justify-center items-center overflow-hidden h-screen mx-auto my-auto text-sm"
+      className="dark:bg-neutral-950 flex justify-center items-center w-full mx-auto my-auto text-sm"
       onKeyDown={handleKeyDown}
     >
       <Stepper
@@ -238,8 +239,8 @@ function LoginForm() {
             handleNextStep();
           },
           disabled: loading || (currentStep === 3 && otpCode.length < 6),
-          // Hide the next button on the first and last steps
-          className: currentStep === 1 || currentStep === 4 ? "hidden" : "w-full",
+          className:
+            currentStep === 1 || currentStep === 4 ? "hidden" : "w-full",
         }}
       >
         {/* Step 1: Role Selection */}
@@ -247,7 +248,7 @@ function LoginForm() {
           <div className="flex flex-col items-center w-full max-w-sm mx-auto space-y-4 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
-                NeuroCast Platform 🧠
+                NeuroCast Platform 
               </h2>
               <p className="text-sm text-slate-500 font-medium">
                 Please select your role to access the system
@@ -265,8 +266,12 @@ function LoginForm() {
                     <FaUserDoctor className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <span className="block font-bold text-blue-900 text-lg">Doctor Portal</span>
-                    <span className="block text-xs text-blue-700 mt-0.5">Patient management & reports</span>
+                    <span className="block font-bold text-blue-900 text-lg">
+                      Doctor Portal
+                    </span>
+                    <span className="block text-xs text-blue-700 mt-0.5">
+                      Patient management & reports
+                    </span>
                   </div>
                 </div>
               </button>
@@ -281,8 +286,12 @@ function LoginForm() {
                     <MdAdminPanelSettings className="w-6 h-6" />
                   </div>
                   <div className="text-left">
-                    <span className="block font-bold text-slate-900 text-lg">System Admin</span>
-                    <span className="block text-xs text-slate-600 mt-0.5">Analytics & access control</span>
+                    <span className="block font-bold text-slate-900 text-lg">
+                      System Admin
+                    </span>
+                    <span className="block text-xs text-slate-600 mt-0.5">
+                      Analytics & access control
+                    </span>
                   </div>
                 </div>
               </button>
@@ -294,13 +303,27 @@ function LoginForm() {
               >
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-emerald-500 text-white rounded-xl transition-transform group-hover:scale-105 shadow-sm">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
                     </svg>
                   </div>
                   <div className="text-left">
-                    <span className="block font-bold text-emerald-900 text-lg">Patients</span>
-                    <span className="block text-xs text-emerald-700 mt-0.5">Exploration & assessment</span>
+                    <span className="block font-bold text-emerald-900 text-lg">
+                      Patients
+                    </span>
+                    <span className="block text-xs text-emerald-700 mt-0.5">
+                      Exploration & assessment
+                    </span>
                   </div>
                 </div>
               </button>
@@ -319,7 +342,6 @@ function LoginForm() {
             <h3 className="text-lg font-bold text-slate-800">
               {selectedRole === "DOCTOR" && "Doctor Login"}
               {selectedRole === "ADMIN" && "Admin Login"}
-              {selectedRole === "GUEST" && "Guest Login"}
             </h3>
           </div>
           <Form {...loginForm}>
@@ -374,76 +396,68 @@ function LoginForm() {
             </div>
           </Form>
           {errorMsg && (
-            <p className="text-red-500 text-center mt-4 text-sm font-bold">{errorMsg}</p>
+            <p className="text-red-500 text-center mt-4 text-sm font-bold">
+              {errorMsg}
+            </p>
           )}
         </Step>
 
-        {/* Step 3: OTP Verification */}
         <Step>
           {loading ? (
             <div className="flex items-center justify-center w-full py-10">
-              <LoaderTwo text={"........"} />
+              <LoaderTwo text={"Verifying OTP..."} />
             </div>
           ) : (
-            <div className="flex flex-col items-center animate-in fade-in zoom-in duration-300">
-              {userExists === false && (
-                <>
-                  <p className="text-lg text-gray-500 text-center mb-4 max-w-xs">
-                    Your First Time Login
-                    <br />
-                    Scan the QR code to link your device
-                  </p>
-                  <div className="bg-white p-4 rounded-xl border-2 border-dashed border-gray-300 mb-6">
-                    {qrCodeUrl ? (
-                      <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48 object-contain" />
-                    ) : (
-                      <div className="w-48 h-48 bg-gray-100 flex items-center justify-center">QR Code</div>
-                    )}
-                  </div>
-                </>
-              )}
+            <div className="flex flex-col items-center w-full max-w-md mx-auto animate-in fade-in zoom-in duration-300">
+              {/* Header */}
+              <div className="text-center space-y-2 mb-6">
+                <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                  Verification Code
+                </h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Enter the 6-digit code
+                </p>
+              </div>
 
-              {userExists === true && (
-                <>
-                  <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mt-2 ">
-                    <IoIosLock className="h-10 w-10" />
-                  </div>
-                  <h2 className="text-xl font-bold mb-2">Two-Factor Authentication (2FA)</h2>
-                  <p className="flex text-sm text-gray-500 mb-1 text-center">
-                    Enter the 6-digit verification code
-                  </p>
-                  <p className="mb-4 text-black">
-                    From your device 
-                  </p>
-                </>
-              )}
-
-              <div dir="ltr" className="mb-4">
+              {/* OTP Input */}
+              <div dir="ltr" className=" mb-6">
                 <InputOTP
-                  autoFocus={true}
+                  autoFocus
                   maxLength={6}
                   value={otpCode}
                   onChange={(val) => {
                     setOtpCode(val);
-                    setErrorMsg("");
+                    if (errorMsg) setErrorMsg("");
                   }}
-                  onComplete={(value: string) => verifyOtpAndLogin(value)}
+                  onComplete={(value) => verifyOtpAndLogin(value)}
+                  // Accessibility
+                  aria-label="One-time password input"
                 >
                   <InputOTPGroup className="text-black">
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
+                    <InputOTPSlot index={0} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={1} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={2} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={3} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={4} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot index={5} className="w-12 h-12 text-lg" />
                   </InputOTPGroup>
                 </InputOTP>
               </div>
 
+              {/* Error Message */}
               {errorMsg && (
-                <div className="p-3 bg-red-50 text-red-600 text-sm rounded border border-red-200 w-full text-center">
-                  {errorMsg}
+                <div className="w-full mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <p className="text-sm text-red-600 dark:text-red-400 text-center">
+                    {errorMsg}
+                  </p>
                 </div>
+              )}
+
+              {/* Paste hint (optional) */}
+              {otpCode.length === 0 && (
+                <p className="text-xs text-gray-400 mt-4">
+                  Tip: You can paste the code directly
+                </p>
               )}
             </div>
           )}
@@ -453,25 +467,27 @@ function LoginForm() {
         <Step>
           <div className="flex flex-col items-center justify-center py-6 animate-in zoom-in duration-300">
             <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-green-100">
-              <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              <svg
+                className="w-12 h-12"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
-            
+
             <h2 className="text-3xl font-extrabold text-green-600 mb-2">
               Login Successful
             </h2>
-            
+
             <p className="text-lg text-gray-700 font-medium mb-1">
               {userData?.name || "Welcome to NeuroCast"}
-            </p>
-            
-            <p className="text-sm text-gray-500 text-center mt-2 bg-gray-100 px-4 py-2 rounded-lg">
-              Granted Role: <strong className="text-blue-600">
-                {selectedRole === "DOCTOR" && "Doctor Portal"}
-                {selectedRole === "ADMIN" && "System Admin"}
-                {selectedRole === "GUEST" && "Guest Access"}
-              </strong>
             </p>
           </div>
         </Step>
@@ -479,5 +495,3 @@ function LoginForm() {
     </div>
   );
 }
-
-export default LoginForm;

@@ -77,3 +77,10 @@ model Visit {
 
   @@index([patientId, visitDate]) 
 }
+
+// 5. جدول تتبع زيارات المنصة (للوحة تحكم الإدارة)
+model PlatformTraffic {
+  id        String   @id @default(cuid())
+  path      String   // الصفحة التي تم زيارتها (مثلاً: / , /admin)
+  createdAt DateTime @default(now())
+}
