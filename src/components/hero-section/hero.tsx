@@ -14,11 +14,15 @@ import LoginForm, { Role } from "../auth-section/form/lognForm";
 import AdminForm from "../ui/form/admin-form/adminForm";
 import ClinicalSystem from "../clinical/ClinicalSystem";
 import InfoPanel from "../clinical/InfoPanel";
-import GusetForm from "../ui/form/guest-form/gusettForm";
 import GuestForm from "../ui/form/guest-form/gusettForm";
+import DoctorDashboard from "../ui/form/doctor-form/doctorForm";
+
+// 1. استدعاء مكون الـ Heatmap
+import HeroHeatmap from "../ui/hero-heatmap";
 
 export default function Hero() {
   const [activeRole, setActiveRole] = useState<Role>(null);
+  
   useEffect(() => {
     const trackVisit = async () => {
       try {
@@ -34,29 +38,26 @@ export default function Hero() {
 
     trackVisit();
   }, []);
-  // دالة مساعدة لتحديد المحتوى الذي سيظهر داخل الشاشة البيضاء (النافذة المتمددة)
+
   const renderExpandedContent = () => {
     switch (activeRole) {
       case "ADMIN":
-        // يختفي تسجيل الدخول والإحصائيات وتظهر صفحة الآدمن
         return (
-          <div className="w-full p-6 lg:p-16 min-h-[80vh] flex flex-col items-center justify-center relative z-10 animate-in fade-in zoom-in duration-500">
+          <div className="w-full p-6 lg:p-16 min-h-[80vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
             <AdminForm />
           </div>
         );
 
       case "DOCTOR":
-        // تظهر الواجهة الطبية للطبيب
         return (
-          <div className="w-full p-6 lg:p-16 min-h-[80vh] flex flex-col items-center justify-center relative z-10 animate-in fade-in zoom-in duration-500">
-            {/* إذا أردت إبقاء الإحصائيات للطبيب يمكنك إعادة <InfoPanel /> هنا، ولكن بناءً على طلبك جعلناها تختفي */}
-            <ClinicalSystem />
+          <div className="w-full p-6 lg:p-16 min-h-[80vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
+            <DoctorDashboard/>
           </div>
         );
 
         case "GUEST":
           return (
-            <div className="relative z-10 flex flex-col lg:flex-row w-full max-w-[1400px] mx-auto items-start animate-in fade-in duration-500">
+            <div className="flex flex-col lg:flex-row w-full max-w-[1400px] mx-auto items-start animate-in fade-in duration-500">
               <InfoPanel />
               <GuestForm onBackToLogin={() => setActiveRole(null)} />
             </div>
@@ -64,7 +65,7 @@ export default function Hero() {
 
       default:
         return (
-          <div className="relative z-10 flex flex-col lg:flex-row w-full max-w-[1400px] mx-auto items-start">
+          <div className="flex flex-col lg:flex-row w-full max-w-[1400px] mx-auto items-start">
             <InfoPanel />
             <div className="w-full lg:flex-1 p-6 sm:p-10 lg:p-16 lg:min-h-screen flex flex-col justify-center border-l border-[#EAE5D9]">
               <LoginForm onLoginSuccess={(role) => setActiveRole(role)} />
@@ -75,7 +76,13 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen items-center justify-center px-10 bg-black w-full rounded-2xl mt-10 pb-32">
+    // 1. تم حذف z-0 من هنا لعدم حبس العناصر داخله
+    <div className="relative flex flex-col min-h-screen items-center justify-center px-10 bg-gradient-to-b from-[#0B1121] to-black w-full rounded-2xl mt-10 pb-32">
+      
+      <div className="absolute inset-0 w-full h-full overflow-hidden rounded-2xl pointer-events-none z-[1]">
+        <HeroHeatmap className="w-full h-full opacity-50 mix-blend-screen" />
+      </div>
+
       <CallToAction />
       
       <div className="text-white mt-10 text-4xl text-center items-center">
@@ -88,7 +95,7 @@ export default function Hero() {
         <div className="mt-10 items-center justify-center flex flex-row w-full">
           <ExpandableScreen layoutId="cta-card" triggerRadius="100px" contentRadius="32px">
             
-            <ExpandableScreenTrigger>
+            <ExpandableScreenTrigger className="z-10">
               <NeumorphButton
                 intent="secondary"
                 className="cursor-pointer flex flex-row shadow-lg hover:shadow-xl transition-all"
@@ -97,7 +104,8 @@ export default function Hero() {
               </NeumorphButton>
             </ExpandableScreenTrigger>
 
-            <ExpandableScreenContent className="bg-[#FDFBF7] shadow-2xl border border-[#EAE5D9] overflow-y-auto">
+            {/* 2. أضفنا relative z-[9999] هنا لنجعل هذا القسم يطفو فوق الـ Navbar عند فتحه */}
+            <ExpandableScreenContent className="bg-[#FDFBF7] shadow-2xl border border-[#EAE5D9] overflow-y-auto relative z-[9999]">
               {renderExpandedContent()}
             </ExpandableScreenContent>
             
@@ -106,7 +114,8 @@ export default function Hero() {
       </div>
       
       <ScrollToExplore />
-      <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-white/10 rounded-full blur-[100px] pointer-events-none" />
+      
+      <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-blue-900/20 via-indigo-900/20 to-blue-900/20 rounded-full blur-[100px] pointer-events-none" />
     </div>
   );
 }

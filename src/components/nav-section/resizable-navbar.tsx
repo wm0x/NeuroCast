@@ -70,7 +70,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
     <motion.div
       ref={ref}
       // CHANGED: dir="rtl" -> dir="ltr" (This is the main fix)
-      className={cn("sticky inset-x-0 top-20 z-40 w-full ", className)}
+      className={cn("sticky inset-x-0 top-20 z-10 w-full ", className)}
       dir="ltr"
     >
       {React.Children.map(children, (child) =>
@@ -105,7 +105,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         minWidth: "800px",
       }}
       className={cn(
-        "relative z-60 bg-transparent border border-transparent mt-2 mx-auto hidden w-full flex-row items-center justify-between self-start rounded-full px-4 py-2 lg:flex dark:bg-transparent",
+        "relative z-40 bg-transparent border border-transparent mt-2 mx-auto hidden w-full flex-row items-center justify-between self-start rounded-full px-4 py-2 lg:flex dark:bg-transparent",
         visible &&
           "bg-neutral-100/95 dark:bg-white/50 border-black/20 shadow-2xl",
         className

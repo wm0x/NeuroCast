@@ -1,40 +1,45 @@
-import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
 
-const prisma = new PrismaClient();
-
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const patientId = searchParams.get('id');
-
-  console.log(" API received request for ID:", patientId);
-
-  if (!patientId) {
-    return NextResponse.json({ error: 'Patient ID is required' }, { status: 400 });
-  }
-
+export async function GET(req: Request) {
   try {
-    const patient = await prisma.patient.findUnique({
+    // استخراج الـ patientId من الرابط (Query Parameters)
+    const { searchParams } = new URL(req.url);
+    const patientId = searchParams.get("patientId");
+
+    if (!patientId) {
+      return NextResponse.json(
+        { error: "Patient ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // البحث عن المريض وجلب بياناته مع زياراته السابقة
+    const patient = await db.patient.findUnique({
       where: { patientId: patientId },
       include: {
         visits: {
-          orderBy: {
-            visitDate: 'asc', 
-          },
+          orderBy: { visitDate: 'desc' }, // ترتيب الزيارات من الأحدث للأقدم
         },
       },
     });
 
+    // إذا لم يتم العثور على المريض، نرجع 404 (وهذا طبيعي للمرضى الجدد)
     if (!patient) {
-      return NextResponse.json({ exists: false, message: 'New patient detected' });
+      return NextResponse.json(
+        { message: "Patient not found" },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({
-      exists: true,
-      data: patient,
-    });
-  } catch (error) {
-    console.error(' Search API Database Error:', error); 
-    return NextResponse.json({ error: 'Internal Server Error', details: error }, { status: 500 });
+    // إذا تم العثور عليه، نرجع بياناته
+    return NextResponse.json(patient, { status: 200 });
+
+  } catch (error: any) {
+    console.error("Lookup Error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch patient data", details: error.message },
+      { status: 500 }
+    );
   }
 }

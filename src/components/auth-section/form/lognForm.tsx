@@ -87,7 +87,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   // تعديل الدالة لكي تتخطى تسجيل الدخول للـ Guest
   const handleRoleSelection = (role: Role) => {
     if (role === "GUEST") {
-      // إرسال النجاح فوراً للهيرو ليخفي صفحة تسجيل الدخول ويعرض صفحة الـ Guest
       onLoginSuccess("GUEST");
       return;
     }
@@ -182,7 +181,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         playSound("success");
         setCurrentStep(4);
 
-        // إعطاء المستخدم فرصة لرؤية رسالة "Login Successful" لمدة ثانيتين ثم إخفاء الهيرو
         setTimeout(() => {
           if (selectedRole) onLoginSuccess(selectedRole);
         }, 2000);
@@ -243,12 +241,11 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
             currentStep === 1 || currentStep === 4 ? "hidden" : "w-full",
         }}
       >
-        {/* Step 1: Role Selection */}
         <Step>
           <div className="flex flex-col items-center w-full max-w-sm mx-auto space-y-4 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
-                NeuroCast Platform 
+                NeuroCast Platform
               </h2>
               <p className="text-sm text-slate-500 font-medium">
                 Please select your role to access the system
@@ -402,6 +399,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
           )}
         </Step>
 
+        {/* Step 3: TOTP Verification / Setup */}
         <Step>
           {loading ? (
             <div className="flex items-center justify-center w-full py-10">
@@ -412,15 +410,28 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               {/* Header */}
               <div className="text-center space-y-2 mb-6">
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                  Verification Code
+                  {qrCodeUrl ? "Setup Authentication" : "Verification Code"}
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Enter the 6-digit code
+                <p className="text-sm text-gray-500 dark:text-gray-400 px-4">
+                  {qrCodeUrl
+                    ? "Scan this QR code using Phone Authenticator or Authy, then enter the code below."
+                    : "Enter the 6-digit code from your authenticator app."}
                 </p>
               </div>
 
+              {/* QR Code Display for New Users */}
+              {qrCodeUrl && (
+                <div className="mb-6 p-4 bg-white rounded-2xl shadow-sm border border-slate-200 animate-in zoom-in duration-500">
+                  <img
+                    src={qrCodeUrl}
+                    alt="Authenticator QR Code"
+                    className="w-48 h-48 mx-auto"
+                  />
+                </div>
+              )}
+
               {/* OTP Input */}
-              <div dir="ltr" className=" mb-6">
+              <div dir="ltr" className="mb-6">
                 <InputOTP
                   autoFocus
                   maxLength={6}
@@ -430,32 +441,49 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                     if (errorMsg) setErrorMsg("");
                   }}
                   onComplete={(value) => verifyOtpAndLogin(value)}
-                  // Accessibility
                   aria-label="One-time password input"
                 >
                   <InputOTPGroup className="text-black">
-                    <InputOTPSlot index={0} className="w-12 h-12 text-lg" />
-                    <InputOTPSlot index={1} className="w-12 h-12 text-lg" />
-                    <InputOTPSlot index={2} className="w-12 h-12 text-lg" />
-                    <InputOTPSlot index={3} className="w-12 h-12 text-lg" />
-                    <InputOTPSlot index={4} className="w-12 h-12 text-lg" />
-                    <InputOTPSlot index={5} className="w-12 h-12 text-lg" />
+                    <InputOTPSlot
+                      index={0}
+                      className="w-12 h-12 text-lg font-bold"
+                    />
+                    <InputOTPSlot
+                      index={1}
+                      className="w-12 h-12 text-lg font-bold"
+                    />
+                    <InputOTPSlot
+                      index={2}
+                      className="w-12 h-12 text-lg font-bold"
+                    />
+                    <InputOTPSlot
+                      index={3}
+                      className="w-12 h-12 text-lg font-bold"
+                    />
+                    <InputOTPSlot
+                      index={4}
+                      className="w-12 h-12 text-lg font-bold"
+                    />
+                    <InputOTPSlot
+                      index={5}
+                      className="w-12 h-12 text-lg font-bold"
+                    />
                   </InputOTPGroup>
                 </InputOTP>
               </div>
 
               {/* Error Message */}
               {errorMsg && (
-                <div className="w-full mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                  <p className="text-sm text-red-600 dark:text-red-400 text-center">
+                <div className="w-full mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg animate-in shake">
+                  <p className="text-sm text-red-600 dark:text-red-400 text-center font-bold">
                     {errorMsg}
                   </p>
                 </div>
               )}
 
-              {/* Paste hint (optional) */}
-              {otpCode.length === 0 && (
-                <p className="text-xs text-gray-400 mt-4">
+              {/* Paste hint */}
+              {otpCode.length === 0 && !qrCodeUrl && (
+                <p className="text-xs text-gray-400 mt-2">
                   Tip: You can paste the code directly
                 </p>
               )}

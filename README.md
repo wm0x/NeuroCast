@@ -1,57 +1,66 @@
 # NeuroCast 🧠
 
+![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
 **Real-Time Prediction of Alzheimer's Disease Progression Using Multimodal Clinical Data**
 
-![NeuroCast Logo](path/to/your/logo.png) **
+## 📖 Project Overview
 
-## Project Overview
+**NeuroCast** is an advanced multimodal deep learning system developed to address the critical challenge of managing Alzheimer's disease. The platform predicts the progression of the disease—specifically forecasting the **Delta MMSE** (Mini-Mental State Examination) score—to indicate cognitive decline or stability over time.
 
-**NeuroCast** is an advanced deep learning system designed to address the critical challenge of managing Alzheimer's disease. Unlike standard clinical assessments that rely on subjective judgment and infrequent monitoring , NeuroCast leverages **multimodal fusion techniques** to provide neurologists with personalized progression forecasts.
+Unlike standard clinical assessments, NeuroCast fuses diverse clinical and genetic biomarkers through a sophisticated deep learning architecture to provide neurologists with personalized progression trajectories. 
 
-This platform is the first progression-focused prediction model designed specifically for real-time clinical management, helping to identify individual decline trajectories and optimize care planning.
+### ✨ Key Features
 
-### Key Features
-
-* **Multimodal Data Integration:** Fuses three distinct data types for accurate prediction:
-    1.  **Time-Invariant Data:** Demographics, genetics (APOE ε4), and medical history .
-    2.  **Time-Series Data:** Longitudinal cognitive scores (MMSE, CDR-SOB) and biomarkers (MRI volumes, PET scans).
-    3.  **Clinical Notes:** NLP analysis of unstructured text using domain-tuned ClinicalBERT.
-* **Personalized Trajectories:** Forecasts individual patient decline rather than just diagnostic classification.
-* **Clinical Decision Support:** Designed to assist with timely therapeutic interventions and clinical trial enrichment.
-* **Interpretability:** Highlights key progression drivers to provide clinically actionable insights.
+* **Multimodal Fusion Architecture:** Integrates diverse datasets including patient demographics (age, gender, education) and specific gene expressions (AQP7, RPS5, CHD2, SNX5, ASS1).
+* **Advanced Deep Learning Models:** Utilizes a combination of CNN and LSTM networks to process complex longitudinal data, optimized with custom loss functions and rigorous dataset merging using Pandas.
+* **Clinical Dashboard:** A responsive, real-time interface for doctors to input patient visit data, track historical MMSE scores, and generate AI-driven clinical trends.
+* **Delta Prediction:** Focuses on predicting the *change* in cognitive capability (Delta MMSE), providing a clear clinical trend rather than just a static diagnostic classification.
+* **Seamless API Integration:** Connects the interactive Next.js frontend to a dedicated AI backend for real-time inference and database syncing via Prisma.
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-* **Frontend:** [Next.js](https://nextjs.org) (React Framework)
+**Frontend & Dashboard:**
+* **Framework:** [Next.js](https://nextjs.org) (React)
+* **Language:** TypeScript
 * **Styling:** Tailwind CSS
-* **AI/ML Backend:** Multimodal Deep Learning Architecture (LSTM + Attention Mechanisms + ClinicalBERT) 
-* **Deployment:** Vercel
+* **Database ORM:** Prisma
+
+**AI & Data Science Backend:**
+* **Architecture:** Multimodal Deep Learning (CNN & LSTM)
+* **Data Processing:** Python & Pandas 
+* **API:** RESTful architecture for model inference
 
 ---
 
-## Getting Started
+## 🎓 Academic Context
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+NeuroCast was developed as a comprehensive university graduation project bridging the gap between Artificial Intelligence, Software Engineering, and healthcare. The project was completed under the academic supervision of **Dr. Syed**.
+
+---
+
+## 🚀 Getting Started
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with `create-next-app`.
 
 ### Prerequisites
 
-Ensure you have one of the following package managers installed:
-* npm
-* yarn
-* pnpm
-* bun
+Ensure you have one of the following package managers installed: `npm`, `yarn`, `pnpm`, or `bun`.
 
 ### Installation
 
-First, run the development server:
-
+1. **Clone the repository:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   git clone [https://github.com/yourusername/neurocast.git](https://github.com/yourusername/neurocast.git)
+   cd neurocast
+
+   npm install
+   # or yarn install / pnpm install
+
+   npx prisma generate
+   npx prisma db push

@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { FiAlertTriangle } from "react-icons/fi";
-import CustomDrawer from "./intro-disclosure";
+import CustomDrawer from "../../intro-disclosure";
 
 // نوع البيانات المطابق لـ Prisma Schema
 type Doctor = {
@@ -36,6 +36,8 @@ export default function DoctorManagementDrawer() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [isFetching, setIsFetching] = useState(true);
+
   // حالة الإشعار (Toast)
   const [toast, setToast] = useState<ToastData | null>(null);
 
@@ -56,7 +58,10 @@ export default function DoctorManagementDrawer() {
   const [confirmDeleteChecked, setConfirmDeleteChecked] = useState(false);
 
   // دالة إظهار الإشعار مؤقتاً لمدة 3 ثوانٍ
-  const showToast = (message: string, type: "success" | "error" = "success") => {
+  const showToast = (
+    message: string,
+    type: "success" | "error" = "success"
+  ) => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
   };
@@ -64,6 +69,7 @@ export default function DoctorManagementDrawer() {
   // جلب الأطباء من قاعدة البيانات
   const fetchDoctors = async () => {
     try {
+      setIsFetching(true);
       const res = await fetch("/api/doctors");
       if (res.ok) {
         const data = await res.json();
@@ -71,6 +77,8 @@ export default function DoctorManagementDrawer() {
       }
     } catch (error) {
       console.error("Error fetching doctors:", error);
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -107,7 +115,9 @@ export default function DoctorManagementDrawer() {
 
       // إظهار الإشعار بالنجاح
       showToast(
-        view === "add" ? "Doctor added successfully!" : "Doctor updated successfully!"
+        view === "add"
+          ? "Doctor added successfully!"
+          : "Doctor updated successfully!"
       );
 
       // إعادة تعيين النموذج والعودة للقائمة
@@ -172,23 +182,22 @@ export default function DoctorManagementDrawer() {
 
   return (
     <div className="flex items-center justify-center p-10">
-<Button
-  onClick={() => setIsOpen(true)}
-  className="group relative flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:bg-blue-700 transition-all duration-300"
->
-  <FaUserDoctor className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
-  <span>Open Doctor Management</span>
-</Button>
+      <Button
+        onClick={() => setIsOpen(true)}
+        className="group relative flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:bg-blue-700 transition-all duration-300"
+      >
+        <FaUserDoctor className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
+        <span>Open Doctor Management</span>
+      </Button>
 
       <CustomDrawer open={isOpen} setOpen={handleOpenChange}>
         <div className="w-full max-w-md mx-auto min-h-[450px] flex flex-col overflow-hidden relative rounded-2xl bg-white">
-          
           {/* ================= التوست المدمج (Toast) ================= */}
           {toast && (
-            <div 
+            <div
               className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-full shadow-lg text-sm font-medium flex items-center gap-2 animate-in slide-in-from-bottom-8 fade-in duration-300 ${
-                toast.type === "success" 
-                  ? "bg-slate-800 text-white shadow-emerald-500/20" 
+                toast.type === "success"
+                  ? "bg-slate-800 text-white shadow-emerald-500/20"
                   : "bg-red-600 text-white shadow-red-500/20"
               }`}
             >
@@ -439,13 +448,34 @@ export default function DoctorManagementDrawer() {
                   + Add New
                 </button>
               </div>
-
               <div className="flex flex-col gap-3 overflow-y-auto pr-2 pb-4 relative">
-                {doctors.length === 0 ? (
-                  <p className="text-center text-sm text-slate-400 py-8">
+                {isFetching ? (
+                  // 1. حالة التحميل (Skeleton Loader)
+                  Array.from({ length: 3 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between p-3 rounded-2xl bg-white border border-slate-100 shadow-sm animate-pulse"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-200"></div>
+                        <div className="space-y-2">
+                          <div className="h-3 w-24 bg-slate-200 rounded-full"></div>
+                          <div className="h-2 w-16 bg-slate-100 rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-slate-100"></div>
+                        <div className="w-8 h-8 rounded-lg bg-slate-100"></div>
+                      </div>
+                    </div>
+                  ))
+                ) : doctors.length === 0 ? (
+                  // 2. حالة عدم وجود أطباء (Empty State)
+                  <p className="text-center text-sm text-slate-400 py-8 animate-in fade-in">
                     No doctors found. Add one!
                   </p>
                 ) : (
+                  // 3. حالة عرض الأطباء (Data Loaded)
                   doctors.map((doc, idx) => (
                     <div
                       key={doc.id}

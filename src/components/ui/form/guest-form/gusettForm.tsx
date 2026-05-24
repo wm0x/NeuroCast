@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { Label } from "@radix-ui/react-label";
-// قمنا بإضافة أيقونة الرجوع هنا
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"; 
 import { DualRangeSlider } from "../../slider";
 import { PredictionResult } from "../../../../../types/clinical";
@@ -15,42 +14,50 @@ const LOADING_STEPS = [
   "Finalizing Clinical Report...",
 ];
 
-// 1. تعريف الـ Props لاستقبال دالة الرجوع
+// 1. استخراج القيم الافتراضية (المتوسط) لتسهيل عملية إعادة التعيين
+const INITIAL_FORM_DATA = {
+  patient_id: "GUEST_DEMO",
+  fullName: "Guest User",
+  age: "65",
+  gender: "1",
+  education_years: "12",
+  mmse: "28",
+  cdrsb: "0.5",
+  hippocampus_vol: "6500",
+  abeta: "800",
+  tau: "250",
+  AQP7: 3.75,
+  RPS5: 11.25,
+  CHD2: 8.25,
+  SNX5: 8.3,
+  ASS1: 7.5,
+  Unchar: 4.0,
+};
+
 interface GuestFormProps {
   onBackToLogin: () => void;
 }
 
-// 2. تمرير الـ Props للمكون
 export default function GuestForm({ onBackToLogin }: GuestFormProps) {
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState(LOADING_STEPS[0]);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
-  const [formData, setFormData] = useState({
-    patient_id: "GUEST_DEMO",
-    fullName: "Guest User",
-    age: "65",
-    gender: "1",
-    education_years: "12",
-    mmse: "28",
-    cdrsb: "0.5",
-    hippocampus_vol: "6500",
-    abeta: "800",
-    tau: "250",
-    AQP7: 3.75,
-    RPS5: 11.25,
-    CHD2: 8.25,
-    SNX5: 8.3,
-    ASS1: 7.5,
-    Unchar: 4.0,
-  });
+  // استخدام الثابت كقيمة ابتدائية
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 2. دالة إعادة التعيين
+  const handleReset = () => {
+    setFormData(INITIAL_FORM_DATA);
+    setResult(null); // اختياري: إخفاء النتيجة السابقة عند إعادة التعيين
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -111,7 +118,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
   return (
     <div className="w-full lg:flex-1 p-6 sm:p-10 lg:p-16 lg:min-h-screen flex flex-col justify-center border-l border-[#EAE5D9]">
       
-      {/* 3. زر الرجوع إلى صفحة تسجيل الدخول */}
       <div className="w-full max-w-2xl mx-auto mb-4 flex justify-start no-print" dir="ltr">
         <button
           type="button"
@@ -125,7 +131,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
 
       <form onSubmit={handleSubmit} className="space-y-8 text-start w-full max-w-2xl mx-auto">
         
-        {/* ترويسة بسيطة لتوضيح أنه وضع تجريبي */}
         <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl mb-6">
           <h2 className="text-emerald-800 font-bold text-sm uppercase tracking-wider mb-1">
             Demo Mode (Guest)
@@ -135,15 +140,25 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
           </p>
         </div>
 
-        {/* --- مؤشرات الجينات (Sliders) --- */}
         <div className="space-y-6 animate-in fade-in duration-700 no-print">
-          <div>
-            <h3 className="text-xl font-bold text-slate-800 mb-1">
-              Gene Expression Levels
-            </h3>
-            <p className="text-sm text-slate-500">
-              Interactive sandbox to simulate different biomarker inputs.
-            </p>
+          
+          {/* 3. تعديل الترويسة لإضافة زر إعادة التعيين */}
+          <div className="flex justify-between items-end mb-1">
+            <div>
+              <h3 className="text-xl font-bold text-slate-800">
+                Gene Expression Levels
+              </h3>
+              <p className="text-sm text-slate-500 mt-1">
+                Interactive sandbox to simulate different biomarker inputs.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="text-sm text-emerald-600 hover:text-emerald-800 font-semibold px-4 py-2 rounded-xl hover:bg-emerald-100 transition-all active:scale-95"
+            >
+              Reset to Mean
+            </button>
           </div>
 
           {/* الصف الأول */}
@@ -153,9 +168,9 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
                 AQP7 <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">(11762936_x_at)</span>
               </Label>
               <DualRangeSlider
-                value={[Number(formData.AQP7) || 3.75]}
+                value={[Number(formData.AQP7)]}
                 onValueChange={([val]) => handleChange({ target: { name: "AQP7", value: String(val) } } as any)}
-                min={1.0} max={7.0} step={0.01} tickCount={31}
+                min={2.5} max={5.5} step={0.01} tickCount={31}
               />
             </div>
             <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
@@ -163,9 +178,9 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
                 RPS5 <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">(200024_PM_at)</span>
               </Label>
               <DualRangeSlider
-                value={[Number(formData.RPS5) || 11.25]}
+                value={[Number(formData.RPS5)]}
                 onValueChange={([val]) => handleChange({ target: { name: "RPS5", value: String(val) } } as any)}
-                min={8.0} max={15.0} step={0.01} tickCount={31}
+                min={9.5} max={13.0} step={0.01} tickCount={31}
               />
             </div>
           </div>
@@ -177,9 +192,9 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
                 CHD2 <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">(11762358_at)</span>
               </Label>
               <DualRangeSlider
-                value={[Number(formData.CHD2) || 8.25]}
+                value={[Number(formData.CHD2)]}
                 onValueChange={([val]) => handleChange({ target: { name: "CHD2", value: String(val) } } as any)}
-                min={3.0} max={12.0} step={0.01} tickCount={31}
+                min={6.0} max={11.0} step={0.01} tickCount={31}
               />
             </div>
             <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
@@ -187,9 +202,9 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
                 SNX5 <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">(11763188_a_at)</span>
               </Label>
               <DualRangeSlider
-                value={[Number(formData.SNX5) || 8.3]}
+                value={[Number(formData.SNX5)]}
                 onValueChange={([val]) => handleChange({ target: { name: "SNX5", value: String(val) } } as any)}
-                min={5.0} max={12.0} step={0.01} tickCount={31}
+                min={6.0} max={10.0} step={0.01} tickCount={31}
               />
             </div>
           </div>
@@ -201,9 +216,9 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
                 ASS1 <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">(11757278_x_at)</span>
               </Label>
               <DualRangeSlider
-                value={[Number(formData.ASS1) || 7.5]}
+                value={[Number(formData.ASS1)]}
                 onValueChange={([val]) => handleChange({ target: { name: "ASS1", value: String(val) } } as any)}
-                min={4.0} max={11.0} step={0.01} tickCount={31}
+                min={5.0} max={10.0} step={0.01} tickCount={31}
               />
             </div>
             <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
@@ -211,16 +226,14 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
                 Unchar <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">(11764118_at)</span>
               </Label>
               <DualRangeSlider
-                value={[Number(formData.Unchar) || 4.0]}
+                value={[Number(formData.Unchar)]}
                 onValueChange={([val]) => handleChange({ target: { name: "Unchar", value: String(val) } } as any)}
-                min={1.0} max={8.0} step={0.01} tickCount={31}
+                min={2.0} max={7.0} step={0.01} tickCount={31}
               />
             </div>
           </div>
         </div>
-        {/* --- نهاية مؤشرات الجينات --- */}
 
-        {/* زر إرسال الطلب للذكاء الاصطناعي */}
         <button
           type="submit"
           disabled={loading}
@@ -237,10 +250,7 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
             </span>
           )}
         </button>
-
-        {/* قسم عرض النتيجة */}
         {result && <ClinicalReport result={result} resultRef={resultRef} />}
-        
       </form>
     </div>
   );
