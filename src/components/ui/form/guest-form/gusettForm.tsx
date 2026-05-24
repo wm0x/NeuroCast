@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Label } from "@radix-ui/react-label";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"; 
 import { DualRangeSlider } from "../../slider";
@@ -14,7 +14,6 @@ const LOADING_STEPS = [
   "Finalizing Clinical Report...",
 ];
 
-// 1. استخراج القيم الافتراضية (المتوسط) لتسهيل عملية إعادة التعيين
 const INITIAL_FORM_DATA = {
   patient_id: "GUEST_DEMO",
   fullName: "Guest User",
@@ -44,7 +43,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
   const [result, setResult] = useState<PredictionResult | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
-  // استخدام الثابت كقيمة ابتدائية
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
   const handleChange = (
@@ -54,12 +52,22 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 2. دالة إعادة التعيين
   const handleReset = () => {
     setFormData(INITIAL_FORM_DATA);
-    setResult(null); // اختياري: إخفاء النتيجة السابقة عند إعادة التعيين
+    setResult(null); 
   };
 
+  useEffect(() => {
+    if (result && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "start" 
+        });
+      }, 100);
+    }
+  }, [result]);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -103,6 +111,11 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
       setTimeout(() => {
         setResult(json);
         setLoading(false);
+      }, 500);
+
+      setTimeout(() => {
+        setResult(json);
+        setLoading(false);
         if (resultRef.current) {
           resultRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
         }
@@ -142,7 +155,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
 
         <div className="space-y-6 animate-in fade-in duration-700 no-print">
           
-          {/* 3. تعديل الترويسة لإضافة زر إعادة التعيين */}
           <div className="flex justify-between items-end mb-1">
             <div>
               <h3 className="text-xl font-bold text-slate-800">
@@ -161,7 +173,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
             </button>
           </div>
 
-          {/* الصف الأول */}
           <div className="flex flex-col sm:flex-row gap-5">
             <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
               <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
@@ -185,7 +196,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
             </div>
           </div>
 
-          {/* الصف الثاني */}
           <div className="flex flex-col sm:flex-row gap-5">
             <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
               <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
@@ -209,7 +219,6 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
             </div>
           </div>
 
-          {/* الصف الثالث */}
           <div className="flex flex-col sm:flex-row gap-5">
             <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
               <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">

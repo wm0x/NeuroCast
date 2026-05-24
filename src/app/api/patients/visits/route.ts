@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// 1. إضافة دالة التصنيف خارج الـ POST لتكون الكود مرتباً
 function getPredictionRisk(deltaMMSE: number): string {
   if (deltaMMSE < -2) {
     return "High Risk";
@@ -51,7 +50,7 @@ export async function POST(req: Request) {
       data: {
         patientId: patient.patientId,
         ageAtVisit: visit.ageAtVisit,
-        mmse: currentMmseValue, // نحفظ الدرجة الحالية كما هي
+        mmse: currentMmseValue, 
         aqp7: visit.aqp7,
         rps5: visit.rps5,
         chd2: visit.chd2,

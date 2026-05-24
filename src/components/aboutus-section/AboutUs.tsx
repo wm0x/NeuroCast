@@ -14,7 +14,6 @@ type CharacterProps = {
   scrollYProgress: any;
 };
 
-// V1 is the only one you are using for the title
 const CharacterV1 = ({
   char,
   index,

@@ -3,11 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  // 1. أضفنا Promise هنا في تعريف النوع
   { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
-    // 2. استخدمنا await لفك الـ params قبل أخذ الـ id منه
     const resolvedParams = await params;
     const patientId = resolvedParams.id;
 
@@ -18,7 +16,6 @@ export async function GET(
       );
     }
 
-    // جلب الزيارات من قاعدة البيانات باستخدام Prisma
     const visits = await db.visit.findMany({
       where: {
         patientId: patientId

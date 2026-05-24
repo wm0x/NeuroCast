@@ -35,7 +35,6 @@ const faqData = [
   },
 ];
 
-/* Ambient light orbs in the background */
 const AmbientOrbs = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-2xl">
     {/* Top-left deep blue orb */}
@@ -66,7 +65,6 @@ const AmbientOrbs = () => (
   </div>
 );
 
-/* Thin color bar that appears beside the open answer */
 const ColorAccentBar = ({ color }: { color: string }) => (
   <motion.div
     initial={{ scaleY: 0, opacity: 0 }}
@@ -113,7 +111,6 @@ const FAQItem = ({
               }
         }
       >
-        {/* Subtle shimmer when open */}
         {isOpen && (
           <div
             className="absolute inset-0 pointer-events-none"
@@ -185,19 +182,15 @@ function FAQ() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  /* Active item accent for the title glow */
   const activeAccent =
     openIndex !== null ? faqData[openIndex].accentColor : "#adfa1e";
 
   return (
     <div className="relative bg-black min-h-screen h-auto flex flex-col justify-center items-center rounded-2xl py-20 overflow-hidden">
-      {/* Striped texture */}
       <StripedPattern className="stroke-[0.3] [stroke-dasharray:8,4] opacity-30 text-gray-600" />
 
-      {/* Ambient color lighting */}
       <AmbientOrbs />
 
-      {/* Header */}
       <div className="text-center mb-16 px-4 z-10 relative">
         <h2
           className="text-5xl font-black text-white mb-4 tracking-tight transition-all duration-700"
@@ -211,7 +204,6 @@ function FAQ() {
           Looking for answers? It&apos;s here.
         </p>
 
-        {/* Decorative line under title with color accent */}
         <div className="mt-4 flex items-center justify-center gap-2">
           {faqData.map((item, i) => (
             <motion.div
@@ -227,7 +219,6 @@ function FAQ() {
         </div>
       </div>
 
-      {/* FAQ items */}
       <div className="w-full px-4 z-10 relative">
         {faqData.map((item, index) => (
           <FAQItem

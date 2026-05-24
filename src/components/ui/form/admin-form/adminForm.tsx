@@ -25,8 +25,12 @@ import {
 } from "react-icons/fi";
 import { FaPeopleGroup, FaUserDoctor } from "react-icons/fa6";
 import IntroDisclosureDemo from "./MangeDoctor";
+import { MdOutlineLogout } from "react-icons/md";
 
-// يمكنك نقل هذا الـ Interface لاحقاً إلى ملف types منفصل
+interface AdminFormProps {
+  onLogout: () => void;
+}
+
 export interface DashboardData {
   stats: {
     totalPredictions: number;
@@ -53,7 +57,7 @@ export interface DashboardData {
   }[];
 }
 
-export default function AdminForm() {
+export default function AdminForm({ onLogout }: AdminFormProps) {
   const [data, setData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,7 +107,6 @@ export default function AdminForm() {
 
   return (
     <div className="w-full min-h-screen bg-[#FDFBF7] text-slate-800 font-sans p-4 sm:p-8 rounded-[2rem] overflow-hidden flex flex-col gap-6 animate-in fade-in zoom-in-95 duration-700">
-      {/* ─── الترويسة العليا (Header) ─── */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
         <div>
           <h1 className="text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">
@@ -115,11 +118,19 @@ export default function AdminForm() {
           </p>
         </div>
 
-        {/* أزرار الإجراءات السريعة */}
-        <IntroDisclosureDemo />
+        <div className="flex items-center">
+          <IntroDisclosureDemo />
+
+          <button
+            onClick={onLogout}
+            title="Logout"
+            className="flex items-center justify-center w-10 h-10 bg-red-50 hover:bg-red-100 text-red-600 rounded-full transition-all border border-red-100 hover:border-red-200 shadow-sm active:scale-95"
+          >
+            <MdOutlineLogout className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
-      {/* ─── البطاقات الإحصائية (Stat Cards) ─── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Predictions"
@@ -155,11 +166,8 @@ export default function AdminForm() {
         />
       </div>
 
-      {/* ─── الشبكة الرئيسية (Bento Grid) ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* === الصف الأول في الشبكة === */}
 
-        {/* 1. Vercel-Like Analytics Chart (يأخذ 8 أعمدة) */}
         <div className="lg:col-span-8 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col text-xs">
           <div className="flex justify-between items-center mb-6">
             <div>
@@ -244,7 +252,7 @@ export default function AdminForm() {
           </div>
         </div>
 
-        {/* 2. Patient Risk Stratification Donut Chart (يأخذ 4 أعمدة) */}
+        {/* Patient Risk Stratification Donut Chart */}
         <div className="lg:col-span-4 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm flex flex-col items-center text-xs">
           <div className="w-full flex justify-between items-center mb-2">
             <div>
@@ -318,10 +326,7 @@ export default function AdminForm() {
             ))}
           </div>
         </div>
-
-        {/* === الصف الثاني في الشبكة === */}
-
-        {/* 3. Recent Patient Scans Table (يأخذ 8 أعمدة) */}
+        {/* 3. Recent Patient Scans Table */}
         <div className="lg:col-span-8 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm overflow-hidden flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-bold text-slate-800">

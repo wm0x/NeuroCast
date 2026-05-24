@@ -15,7 +15,7 @@ import { PredictionResult } from "../../../types/clinical";
 
 interface Props {
   result: PredictionResult;
-  resultRef: React.Ref<HTMLDivElement>; // هذا هو الحل السحري!
+  resultRef: React.Ref<HTMLDivElement>;
 }
 
 export default function ClinicalReport({ result, resultRef }: Props) {
@@ -30,7 +30,6 @@ export default function ClinicalReport({ result, resultRef }: Props) {
         <h2 className="text-2xl font-bold text-slate-800">Clinical AI Report</h2>
       </div>
 
-      {/* بطاقة النتيجة الرئيسية */}
       <div
         className="bg-white border p-6 sm:p-8 rounded-[2rem] relative overflow-hidden transition-all duration-1000"
         style={{
@@ -98,7 +97,6 @@ export default function ClinicalReport({ result, resultRef }: Props) {
         </div>
       </div>
 
-      {/* قسم المخطط البياني للجينات */}
       {result?.gene_contributions && (
         <div className="bg-white border border-[#EAE5D9] shadow-sm p-6 sm:p-8 rounded-[2rem]">
           <div className="flex justify-between items-center mb-8">

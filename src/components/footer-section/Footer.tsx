@@ -48,7 +48,6 @@ export default function FooterSection() {
     <section>
       <footer>
         <div className="w-full h-full">
-          {/* About us above the sticky footer */}
           <div
             className="relative z-10 bg-[#f7f7f7] shadow-2xl rounded-b-3xl"
             id="aboutus"
@@ -56,19 +55,14 @@ export default function FooterSection() {
             <AboutUsSection />
           </div>
 
-          {/* Sticky footer card */}
           <div className="sticky z-0 bottom-0 left-0 px-2 md:px-10 pb-10 pt-4">
             <div className="relative w-full min-h-[500px] bg-black flex flex-col justify-between px-8 md:px-16 py-12 rounded-3xl overflow-hidden text-[#fcfcfc]">
 
-              {/* Grid texture */}
               <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-              {/* Ambient color lighting */}
               <FooterAmbientOrbs />
 
-              {/* Top row */}
               <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-12">
-                {/* Brand */}
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <img
@@ -83,7 +77,6 @@ export default function FooterSection() {
                     multimodal deep learning.
                   </p>
 
-                  {/* Decorative color bar — mirrors FAQ title dots */}
                   <div className="flex items-center gap-2 pt-1">
                     {["#112069", "#1f3ca3", "#367c66", "#adfa1e", "#ffe77a", "#ff9a1f", "#ed40b3"].map(
                       (c) => (
@@ -97,7 +90,6 @@ export default function FooterSection() {
                   </div>
                 </div>
 
-                {/* Nav links */}
                 <div className="flex gap-16">
                   <div>
                     <h4
@@ -140,7 +132,6 @@ export default function FooterSection() {
                 </div>
               </div>
 
-              {/* Bottom row */}
               <div className="relative z-10 mt-auto pt-20">
                 <div className="flex justify-between items-end border-t pt-6"
                   style={{ borderColor: "rgba(255,255,255,0.08)" }}
@@ -153,7 +144,6 @@ export default function FooterSection() {
                   </span>
                 </div>
 
-                {/* Large watermark text with subtle color glow */}
                 <h2
                   className="text-[12vw] text-center leading-[0.8] font-bold tracking-tighter mt-4 select-none pointer-events-none"
                   style={{

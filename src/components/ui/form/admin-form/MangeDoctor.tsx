@@ -8,20 +8,19 @@ import {
   FaUsers,
   FaPencil,
   FaTrashCan,
-  FaCircleCheck, // أيقونة النجاح للإشعار
+  FaCircleCheck, 
 } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { FiAlertTriangle } from "react-icons/fi";
 import CustomDrawer from "../../intro-disclosure";
 
-// نوع البيانات المطابق لـ Prisma Schema
 type Doctor = {
   id: string;
   name: string;
   username: string;
 };
 
-// نوع بيانات الإشعار (Toast)
+// (Toast) for notification
 type ToastData = {
   message: string;
   type: "success" | "error";
@@ -31,17 +30,16 @@ export default function DoctorManagementDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState<"menu" | "add" | "list" | "edit">("menu");
 
-  // حالات البيانات والـ API
+  // API
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const [isFetching, setIsFetching] = useState(true);
 
-  // حالة الإشعار (Toast)
+  // state(Toast)
   const [toast, setToast] = useState<ToastData | null>(null);
 
-  // حالة النماذج (الإضافة / التعديل)
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -49,7 +47,6 @@ export default function DoctorManagementDrawer() {
     password: "",
   });
 
-  // حالة نافذة الحذف
   const [deleteDialog, setDeleteDialog] = useState({
     isOpen: false,
     doctorId: "",
@@ -57,7 +54,7 @@ export default function DoctorManagementDrawer() {
   });
   const [confirmDeleteChecked, setConfirmDeleteChecked] = useState(false);
 
-  // دالة إظهار الإشعار مؤقتاً لمدة 3 ثوانٍ
+  // show toast for 3 sec
   const showToast = (
     message: string,
     type: "success" | "error" = "success"
@@ -66,7 +63,7 @@ export default function DoctorManagementDrawer() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // جلب الأطباء من قاعدة البيانات
+  // GET Dr from db
   const fetchDoctors = async () => {
     try {
       setIsFetching(true);
@@ -82,14 +79,12 @@ export default function DoctorManagementDrawer() {
     }
   };
 
-  // عند فتح قائمة الأطباء، نقوم بجلب البيانات
   useEffect(() => {
     if (view === "list") {
       fetchDoctors();
     }
   }, [view]);
 
-  // معالجة إضافة وتعديل دكتور
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -113,7 +108,6 @@ export default function DoctorManagementDrawer() {
         throw new Error(errorData.error || "Something went wrong");
       }
 
-      // إظهار الإشعار بالنجاح
       showToast(
         view === "add"
           ? "Doctor added successfully!"
@@ -152,10 +146,8 @@ export default function DoctorManagementDrawer() {
       });
       if (!res.ok) {
         const errorData = await res.json();
-        // إظهار رسالة الخطأ كـ Toast بدلاً من الـ alert
         showToast(errorData.error || "Error deleting doctor", "error");
       } else {
-        // تحديث القائمة بعد الحذف
         setDoctors(doctors.filter((d) => d.id !== deleteDialog.doctorId));
         showToast("Doctor deleted successfully!");
       }
@@ -175,7 +167,7 @@ export default function DoctorManagementDrawer() {
       setTimeout(() => {
         setView("menu");
         setDeleteDialog({ isOpen: false, doctorId: "", doctorName: "" });
-        setToast(null); // إخفاء أي إشعار عند إغلاق النافذة
+        setToast(null); 
       }, 300);
     }
   };
@@ -192,12 +184,11 @@ export default function DoctorManagementDrawer() {
 
       <CustomDrawer open={isOpen} setOpen={handleOpenChange}>
         <div className="w-full max-w-md mx-auto min-h-[450px] flex flex-col overflow-hidden relative rounded-2xl bg-white">
-          {/* ================= التوست المدمج (Toast) ================= */}
           {toast && (
             <div
-              className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-full shadow-lg text-sm font-medium flex items-center gap-2 animate-in slide-in-from-bottom-8 fade-in duration-300 ${
+              className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 w-full rounded-full shadow-lg text-sm font-medium flex items-center gap-2 animate-in slide-in-from-bottom-8 fade-in duration-300 ${
                 toast.type === "success"
-                  ? "bg-slate-800 text-white shadow-emerald-500/20"
+                  ? "bg-green-800 text-white shadow-emerald-500/20"
                   : "bg-red-600 text-white shadow-red-500/20"
               }`}
             >
@@ -210,7 +201,6 @@ export default function DoctorManagementDrawer() {
             </div>
           )}
 
-          {/* نافذة التأكيد للحذف (Overlay Dialog) */}
           {deleteDialog.isOpen && (
             <div className="absolute inset-0 z-50 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 animate-in fade-in duration-200">
               <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4">
@@ -265,7 +255,6 @@ export default function DoctorManagementDrawer() {
             </div>
           )}
 
-          {/* 1. الشاشة الرئيسية */}
           {view === "menu" && (
             <div className="p-6 flex flex-col gap-6 animate-in fade-in zoom-in-95 duration-300">
               <div className="text-center mb-2 mt-4">
@@ -326,7 +315,6 @@ export default function DoctorManagementDrawer() {
             </div>
           )}
 
-          {/* 2. شاشة الإضافة والتعديل (نموذج موحد) */}
           {(view === "add" || view === "edit") && (
             <div className="p-6 flex flex-col h-full animate-in slide-in-from-right-8 fade-in duration-300">
               <div className="flex items-center mb-6">
@@ -418,7 +406,6 @@ export default function DoctorManagementDrawer() {
             </div>
           )}
 
-          {/* 3. قائمة الأطباء مع أزرار التعديل والحذف */}
           {view === "list" && (
             <div className="p-6 flex flex-col h-full pb-20 animate-in slide-in-from-right-8 fade-in duration-300">
               <div className="flex items-center justify-between mb-6">
@@ -450,7 +437,6 @@ export default function DoctorManagementDrawer() {
               </div>
               <div className="flex flex-col gap-3 overflow-y-auto pr-2 pb-4 relative">
                 {isFetching ? (
-                  // 1. حالة التحميل (Skeleton Loader)
                   Array.from({ length: 3 }).map((_, i) => (
                     <div
                       key={i}
@@ -470,12 +456,10 @@ export default function DoctorManagementDrawer() {
                     </div>
                   ))
                 ) : doctors.length === 0 ? (
-                  // 2. حالة عدم وجود أطباء (Empty State)
                   <p className="text-center text-sm text-slate-400 py-8 animate-in fade-in">
                     No doctors found. Add one!
                   </p>
                 ) : (
-                  // 3. حالة عرض الأطباء (Data Loaded)
                   doctors.map((doc, idx) => (
                     <div
                       key={doc.id}
@@ -485,7 +469,6 @@ export default function DoctorManagementDrawer() {
                         animationDuration: "400ms",
                       }}
                     >
-                      {/* معلومات الدكتور */}
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center font-bold text-sm">
                           {doc.name.charAt(0).toUpperCase()}
@@ -500,7 +483,6 @@ export default function DoctorManagementDrawer() {
                         </div>
                       </div>
 
-                      {/* أزرار الإجراءات (Edit & Delete) */}
                       <div className="flex items-center gap-1">
                         <button
                           onClick={() => openEdit(doc)}

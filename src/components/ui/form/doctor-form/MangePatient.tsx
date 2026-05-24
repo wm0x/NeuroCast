@@ -33,7 +33,6 @@ const LOADING_STEPS = [
   "Saving Patient Record...",
 ];
 
-// 💡 [الحل الجذري]: دالة تستخرج الرقم وتحتفظ بقيمته الحقيقية (سالب أو موجب)
 const extractMMSE = (data: any): number => {
   if (!data) return 0;
   
@@ -56,7 +55,6 @@ const extractMMSE = (data: any): number => {
   for (let val of possibleKeys) {
     if (val !== undefined && val !== null) {
       let numericVal = Array.isArray(val) ? Number(val[0]) : Number(val);
-      // إزالة Math.abs للاحتفاظ بالنتيجة السالبة لمعرفة التدهور
       return isNaN(numericVal) ? 0 : numericVal;
     }
   }
@@ -278,7 +276,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
     result: "100%",
   }[step];
 
-  // 💡 [تحديث ذكي]: تقييم النتيجة بناءً على ما إذا كانت سالبة (تدهور)، موجبة صغيرة (تحسن)، أو درجة مطلقة
+  // 💡  تقييم النتيجة بناءً على ما إذا كانت سالبة (تدهور)، موجبة صغيرة (تحسن)، أو درجة مطلقة
   const getScoreDetails = (score: number) => {
     if (score < 0) {
       return {
@@ -334,7 +332,6 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
     };
   };
 
-  // تقريب النتيجة لرقم عشري واحد (مثال: -2.4 أو 25)
   const finalScore = aiResultData ? Math.round(extractMMSE(aiResultData) * 10) / 10 : 0;
   const statusDetails = getScoreDetails(finalScore);
 
@@ -359,7 +356,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
       </button>
 
       <CustomDrawer open={isOpen} setOpen={handleOpenChange}>
-        <div className="w-full max-w-3xl mx-auto min-h-[550px] flex flex-col overflow-hidden relative z-[9999] rounded-3xl bg-[#FDFBF7] border border-[#EAE5D9] shadow-2xl">
+        <div className="w-full mx-auto min-h-[100vh] flex flex-col overflow-hidden relative z-[9999] rounded-3xl bg-[#FDFBF7] border border-[#EAE5D9] shadow-2xl">
           <div className="flex bg-slate-100 h-1.5 w-full">
             <div
               className="bg-blue-600 h-full transition-all duration-500 ease-in-out"
@@ -367,7 +364,6 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
             />
           </div>
 
-          {/* ... [أكواد الـ Lookup و New Patient و Visit Info تبقى كما هي بالتمام] ... */}
           
           {step === "lookup" && (
             <div className="p-8 flex flex-col h-full animate-in slide-in-from-right-8 fade-in duration-500">
@@ -552,39 +548,39 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
           )}
 
           {step === "visit_info" && (
-            <div className="p-8 flex flex-col h-full animate-in slide-in-from-right-8 fade-in duration-500">
-              <div className="flex items-center mb-6">
+            <div className="p-5 flex flex-col animate-in slide-in-from-right-8 fade-in duration-500">
+              <div className="flex items-center mb-4">
                 <button
                   onClick={() =>
                     setStep(existingPatient ? "patient_found" : "new_patient")
                   }
-                  className="p-2 -ml-2 mr-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors"
+                  className="p-1.5 -ml-1.5 mr-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors"
                 >
-                  <IoIosArrowBack className="w-6 h-6" />
+                  <IoIosArrowBack className="w-5 h-5" />
                 </button>
-                <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center shadow-inner">
-                  <FaBrain className="w-6 h-6" />
+                <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center shadow-inner">
+                  <FaBrain className="w-5 h-5" />
                 </div>
-                <div className="ml-4">
-                  <h2 className="text-2xl font-black text-slate-800">
+                <div className="ml-3">
+                  <h2 className="text-lg font-black text-slate-800">
                     Visit Biomarkers
                   </h2>
-                  <p className="text-sm text-slate-500 font-medium">
-                    Record patient age and gene expression for this visit.
+                  <p className="text-xs text-slate-500 font-medium">
+                    Record patient age and gene expression.
                   </p>
                 </div>
               </div>
 
               {errorMsg && (
-                <div className="mb-4 p-4 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 font-bold flex items-center gap-2">
-                  <FiAlertTriangle className="w-5 h-5" /> {errorMsg}
+                <div className="mb-3 p-3 bg-red-50 text-red-600 text-xs rounded-lg border border-red-100 font-bold flex items-center gap-2">
+                  <FiAlertTriangle className="w-4 h-4" /> {errorMsg}
                 </div>
               )}
 
-              <div className="space-y-5 flex-1 overflow-y-auto pr-2 pb-4">
-                <div className="bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 mb-2">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold tracking-widest uppercase text-slate-500">
+              <div className="space-y-3 flex-1 overflow-y-auto pr-1.5 pb-2">
+                <div className="bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4 mb-1">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold tracking-widest uppercase text-slate-500">
                       Age At Visit
                     </label>
                     <input
@@ -592,18 +588,18 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                       type="number"
                       name="ageAtVisit"
                       min="0"
-                      step="0.1"
+                      step="1.0"
                       value={formData.ageAtVisit}
                       onChange={handleChange}
-                      placeholder="e.g. 65.5"
-                      className="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-100 focus:border-emerald-400 outline-none transition-all font-medium text-slate-800"
+                      placeholder="e.g. 65"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-100 focus:border-emerald-400 outline-none transition-all text-sm font-medium text-slate-800"
                     />
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-5">
-                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5">
-                    <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4">
+                    <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-2">
                       AQP7
                     </Label>
                     <DualRangeSlider
@@ -618,8 +614,8 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                       step={0.01}
                     />
                   </div>
-                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5">
-                    <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
+                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4">
+                    <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-2">
                       RPS5
                     </Label>
                     <DualRangeSlider
@@ -635,9 +631,9 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-5">
-                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5">
-                    <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4">
+                    <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-2">
                       CHD2
                     </Label>
                     <DualRangeSlider
@@ -652,8 +648,8 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                       step={0.01}
                     />
                   </div>
-                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5">
-                    <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
+                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4">
+                    <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-2">
                       SNX5
                     </Label>
                     <DualRangeSlider
@@ -669,9 +665,9 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-5">
-                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5">
-                    <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4">
+                    <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-2">
                       ASS1
                     </Label>
                     <DualRangeSlider
@@ -686,8 +682,8 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                       step={0.01}
                     />
                   </div>
-                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5">
-                    <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
+                  <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4">
+                    <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-2">
                       Unchar
                     </Label>
                     <DualRangeSlider
@@ -704,11 +700,11 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                   </div>
                 </div>
               </div>
-              <div className="pt-6 mt-auto">
+              <div className="pt-4 mt-auto">
                 <button
                   disabled={isLoading}
                   onClick={handlePredictAndSave}
-                  className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white bg-slate-900 hover:bg-black transition-all shadow-lg shadow-slate-900/20 disabled:opacity-70"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-white bg-slate-900 hover:bg-black transition-all shadow-md shadow-slate-900/20 disabled:opacity-70"
                 >
                   {isLoading ? loadingText : "Predict MMSE & Save Visit"}
                 </button>

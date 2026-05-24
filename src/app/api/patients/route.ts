@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
-// 1. دالة جلب كل المرضى (GET)
 export async function GET() {
   try {
     const patients = await db.patient.findMany({
-      orderBy: { createdAt: 'desc' } // ترتيب من الأحدث للأقدم
+      orderBy: { createdAt: 'desc' } 
     });
     return NextResponse.json(patients, { status: 200 });
   } catch (error) {
@@ -13,7 +12,6 @@ export async function GET() {
   }
 }
 
-// 2. دالة إضافة مريض جديد (POST)
 export async function POST(req: Request) {
   try {
     const { fullName, age, gender, mrn } = await req.json();
@@ -24,8 +22,6 @@ export async function POST(req: Request) {
         patientId: mrn, 
         fullName: fullName,
         gender: genderInt,
-        // تأكد أن قاعدة البيانات تقبل الإضافة بدون doctorId، 
-        // أو اجعل حقل doctorId اختياري (String?) في ملف prisma.schema
       },
     });
 

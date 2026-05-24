@@ -17,7 +17,6 @@ import InfoPanel from "../clinical/InfoPanel";
 import GuestForm from "../ui/form/guest-form/gusettForm";
 import DoctorDashboard from "../ui/form/doctor-form/doctorForm";
 
-// 1. استدعاء مكون الـ Heatmap
 import HeroHeatmap from "../ui/hero-heatmap";
 
 export default function Hero() {
@@ -44,14 +43,14 @@ export default function Hero() {
       case "ADMIN":
         return (
           <div className="w-full p-6 lg:p-16 min-h-[80vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
-            <AdminForm />
+            <AdminForm onLogout={() => setActiveRole(null)}/>
           </div>
         );
 
       case "DOCTOR":
         return (
           <div className="w-full p-6 lg:p-16 min-h-[80vh] flex flex-col items-center justify-center animate-in fade-in duration-500">
-            <DoctorDashboard/>
+            <DoctorDashboard onLogout={() => setActiveRole(null)}/>
           </div>
         );
 
@@ -76,7 +75,6 @@ export default function Hero() {
   };
 
   return (
-    // 1. تم حذف z-0 من هنا لعدم حبس العناصر داخله
     <div className="relative flex flex-col min-h-screen items-center justify-center px-10 bg-gradient-to-b from-[#0B1121] to-black w-full rounded-2xl mt-10 pb-32">
       
       <div className="absolute inset-0 w-full h-full overflow-hidden rounded-2xl pointer-events-none z-[1]">
@@ -104,7 +102,6 @@ export default function Hero() {
               </NeumorphButton>
             </ExpandableScreenTrigger>
 
-            {/* 2. أضفنا relative z-[9999] هنا لنجعل هذا القسم يطفو فوق الـ Navbar عند فتحه */}
             <ExpandableScreenContent className="bg-[#FDFBF7] shadow-2xl border border-[#EAE5D9] overflow-y-auto relative z-[9999]">
               {renderExpandedContent()}
             </ExpandableScreenContent>

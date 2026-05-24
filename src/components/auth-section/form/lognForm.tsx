@@ -34,7 +34,6 @@ const OtpSchema = z.object({
 
 export type Role = "DOCTOR" | "ADMIN" | "GUEST" | null;
 
-// إضافة الـ Props للتواصل مع صفحة الهيرو
 interface LoginFormProps {
   onLoginSuccess: (role: Role) => void;
 }
@@ -60,7 +59,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   );
   const [userData, setUserData] = useState<{ name: string } | null>(null);
 
-  // Forms
   const loginForm = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: { username: "", password: "" },
@@ -84,7 +82,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     }
   };
 
-  // تعديل الدالة لكي تتخطى تسجيل الدخول للـ Guest
   const handleRoleSelection = (role: Role) => {
     if (role === "GUEST") {
       onLoginSuccess("GUEST");
@@ -333,7 +330,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
           </div>
         </Step>
 
-        {/* Step 2: Login Form */}
         <Step>
           <div className="w-full max-w-sm mx-auto mb-6 text-center">
             <h3 className="text-lg font-bold text-slate-800">
@@ -399,7 +395,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
           )}
         </Step>
 
-        {/* Step 3: TOTP Verification / Setup */}
         <Step>
           {loading ? (
             <div className="flex items-center justify-center w-full py-10">
@@ -407,7 +402,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
             </div>
           ) : (
             <div className="flex flex-col items-center w-full max-w-md mx-auto animate-in fade-in zoom-in duration-300">
-              {/* Header */}
               <div className="text-center space-y-2 mb-6">
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
                   {qrCodeUrl ? "Setup Authentication" : "Verification Code"}
@@ -419,7 +413,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 </p>
               </div>
 
-              {/* QR Code Display for New Users */}
               {qrCodeUrl && (
                 <div className="mb-6 p-4 bg-white rounded-2xl shadow-sm border border-slate-200 animate-in zoom-in duration-500">
                   <img
@@ -430,7 +423,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 </div>
               )}
 
-              {/* OTP Input */}
               <div dir="ltr" className="mb-6">
                 <InputOTP
                   autoFocus
@@ -472,7 +464,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 </InputOTP>
               </div>
 
-              {/* Error Message */}
               {errorMsg && (
                 <div className="w-full mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg animate-in shake">
                   <p className="text-sm text-red-600 dark:text-red-400 text-center font-bold">
@@ -481,7 +472,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 </div>
               )}
 
-              {/* Paste hint */}
               {otpCode.length === 0 && !qrCodeUrl && (
                 <p className="text-xs text-gray-400 mt-2">
                   Tip: You can paste the code directly
@@ -491,7 +481,6 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
           )}
         </Step>
 
-        {/* Step 4: Success Result */}
         <Step>
           <div className="flex flex-col items-center justify-center py-6 animate-in zoom-in duration-300">
             <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-green-100">

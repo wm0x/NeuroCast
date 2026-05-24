@@ -17,7 +17,6 @@ export default function InfoPanel() {
       </h2>
 
       <div className="space-y-4">
-        {/* إحصائيات النموذج */}
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white border border-slate-200/60 shadow-sm rounded-2xl p-4 flex flex-col justify-center">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
@@ -39,7 +38,6 @@ export default function InfoPanel() {
           </div>
         </div>
 
-        {/* لوحة الجينات */}
         <div className="bg-white border border-slate-200/60 shadow-sm rounded-3xl overflow-hidden flex flex-col text-2xl">
           <div className="px-5 py-3.5 bg-slate-50/50 border-b border-slate-100 flex justify-between items-center">
             <h3 className="text-xs font-bold text-slate-700 uppercase tracking-widest">

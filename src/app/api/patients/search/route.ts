@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 
 export async function GET(req: Request) {
   try {
-    // استخراج الـ patientId من الرابط (Query Parameters)
     const { searchParams } = new URL(req.url);
     const patientId = searchParams.get("patientId");
 
@@ -14,7 +13,6 @@ export async function GET(req: Request) {
       );
     }
 
-    // البحث عن المريض وجلب بياناته مع زياراته السابقة
     const patient = await db.patient.findUnique({
       where: { patientId: patientId },
       include: {
@@ -24,7 +22,6 @@ export async function GET(req: Request) {
       },
     });
 
-    // إذا لم يتم العثور على المريض، نرجع 404 (وهذا طبيعي للمرضى الجدد)
     if (!patient) {
       return NextResponse.json(
         { message: "Patient not found" },
@@ -32,7 +29,6 @@ export async function GET(req: Request) {
       );
     }
 
-    // إذا تم العثور عليه، نرجع بياناته
     return NextResponse.json(patient, { status: 200 });
 
   } catch (error: any) {

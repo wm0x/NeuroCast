@@ -8,30 +8,32 @@ import {
   FaChevronUp,
 } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
+import { MdOutlineLogout } from "react-icons/md"; 
 import AddPatientDrawer from "./MangePatient";
 
-// دالة مساعدة لإعطاء ألوان مختلفة بناءً على نتيجة التنبؤ
+
+// this props for log out from form 
+interface DoctorDashboardProps {
+  onLogout: () => void;
+}
+
 const getPredictionBadgeStyle = (prediction: string) => {
-  if (!prediction) return "bg-slate-100 text-slate-500"; // إذا كان فارغاً
+  if (!prediction) return "bg-slate-100 text-slate-500"; 
   const p = prediction.toLowerCase();
   
   if (p.includes("high")) return "bg-red-100 text-red-700 border-red-200";
   if (p.includes("moderate")) return "bg-orange-100 text-orange-700 border-orange-200";
   if (p.includes("low")) return "bg-emerald-100 text-emerald-700 border-emerald-200";
   
-  return "bg-indigo-100 text-indigo-700 border-indigo-200"; // افتراضي لأي نص آخر
+  return "bg-indigo-100 text-indigo-700 border-indigo-200"; 
 };
 
-export default function DoctorDashboard() {
+export default function DoctorDashboard({ onLogout }: DoctorDashboardProps) {
   const [isDirectoryModalOpen, setIsDirectoryModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [patients, setPatients] = useState<any[]>([]);
 
-  // حالة تتبع الصف المفتوح
-  const [expandedPatientIndex, setExpandedPatientIndex] = useState<
-    number | null
-  >(null);
-  // حالة تتبع تحميل الزيارات
+  const [expandedPatientIndex, setExpandedPatientIndex] = useState<number | null>(null);
   const [loadingVisits, setLoadingVisits] = useState(false);
 
   const fetchAllPatients = async () => {
@@ -59,39 +61,24 @@ export default function DoctorDashboard() {
     fetchAllPatients();
   }, []);
 
-  // دالة الفتح وجلب بيانات الزيارات (Lazy Loading)
   const togglePatientDetails = async (index: number, patientId: string) => {
-    // إذا كان الصف مفتوحاً، قم بإغلاقه
     if (expandedPatientIndex === index) {
       setExpandedPatientIndex(null);
       return;
     }
-
-    // افتح الصف
     setExpandedPatientIndex(index);
-
-    // إذا كانت الزيارات محملة مسبقاً لهذا المريض، لا داعي لجلبها مجدداً
     if (patients[index].visits) return;
 
     setLoadingVisits(true);
     try {
-      // استدعاء API الزيارات باستخدام الباث الذي حددته
       const response = await fetch(`/api/patients/visits/${patientId}`);
-
       if (response.ok) {
         const visitsData = await response.json();
-
-        // تحديث مصفوفة المرضى وإضافة الزيارات للمريض المحدد
         setPatients((prevPatients) => {
           const updatedPatients = [...prevPatients];
-          updatedPatients[index] = {
-            ...updatedPatients[index],
-            visits: visitsData,
-          };
+          updatedPatients[index] = { ...updatedPatients[index], visits: visitsData };
           return updatedPatients;
         });
-      } else {
-        console.error("Failed to fetch patient visits");
       }
     } catch (error) {
       console.error("Error fetching patient visits:", error);
@@ -101,11 +88,18 @@ export default function DoctorDashboard() {
   };
 
   return (
-    <div className="min-h-screen p-6 lg:p-10 font-sans">
+    <div className="min-h-screen p-6 lg:p-10 font-sans w-full">
+      
+      <div className="max-w-6xl mx-auto flex justify-end mb-4">
+        <button
+          onClick={onLogout}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 font-bold rounded-full transition-all border border-red-100 hover:border-red-200 shadow-sm active:scale-95"
+        >
+          <MdOutlineLogout className="w-10 h-10" />
+        </button>
+      </div>
+
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* ==================================================== */}
-        {/* الترحيب العام */}
-        {/* ==================================================== */}
         <div className="relative overflow-hidden bg-gradient-to-r from-blue-700 to-indigo-800 rounded-3xl p-8 sm:p-10 shadow-2xl text-white">
           <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-blue-400 opacity-10 rounded-full blur-2xl"></div>
@@ -127,6 +121,7 @@ export default function DoctorDashboard() {
           </div>
         </div>
 
+        
         <div className="flex justify-center items-center mx-auto w-full px-4">
           <div className="group w-full max-w-sm bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 flex items-center gap-6">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner border border-blue-100 group-hover:scale-110 transition-transform duration-300">
@@ -176,9 +171,6 @@ export default function DoctorDashboard() {
         </div>
       </div>
 
-      {/* ==================================================== */}
-      {/* نافذة عرض كل المرضى */}
-      {/* ==================================================== */}
       {isDirectoryModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div
@@ -228,7 +220,6 @@ export default function DoctorDashboard() {
                     <tbody>
                       {patients.map((patient, index) => (
                         <React.Fragment key={index}>
-                          {/* الصف الأساسي للمريض */}
                           <tr
                             onClick={() =>
                               togglePatientDetails(
@@ -272,7 +263,6 @@ export default function DoctorDashboard() {
                             </td>
                           </tr>
 
-                          {/* الصف المنسدل للزيارات */}
                           {expandedPatientIndex === index && (
                             <tr>
                               <td
@@ -300,7 +290,6 @@ export default function DoctorDashboard() {
                                             <th className="px-4 py-3 font-semibold text-slate-600 border-b border-slate-200">
                                               MMSE Score
                                             </th>
-                                            {/* تم إضافة عمود التنبؤ هنا */}
                                             <th className="px-4 py-3 font-semibold text-slate-600 border-b border-slate-200">
                                               AI Prediction (Risk)
                                             </th>
@@ -334,7 +323,6 @@ export default function DoctorDashboard() {
                                                       {visit.mmse} / 30
                                                     </span>
                                                   </td>
-                                                  {/* عرض نتيجة التنبؤ مع التلوين الديناميكي */}
                                                   <td className="px-4 py-3">
                                                     <span
                                                       className={`px-3 py-1 rounded-md font-bold text-xs border ${getPredictionBadgeStyle(

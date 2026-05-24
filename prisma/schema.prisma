@@ -16,11 +16,11 @@ enum Role {
   GUEST
 }
 
-// 2. جدول المستخدمين (الأطباء، المدراء)
+// 2. جدول المستخدمين
 model User {
   id          String    @id @default(cuid())
   username    String    @unique
-  password    String    // يتم حفظها مشفرة (Hashed)
+  password    String    // يتم حفظها مشفرة 
   name        String    // اسم الدكتور أو المدير
   role        Role      @default(GUEST)
   totpSecret  String?   // حفظ كود المصادقة الثنائية 2FA
@@ -46,7 +46,7 @@ model Patient {
   visits          Visit[]
 }
 
-// 4. جدول الزيارات (السجل الطبي)
+// 4. جدول الزيارات
 model Visit {
   id              String   @id @default(cuid())
   patient         Patient  @relation(fields: [patientId], references: [patientId])
@@ -55,7 +55,7 @@ model Visit {
   visitDate       DateTime @default(now())
   ageAtVisit      Float
   
-  // المؤشرات السريرية
+  // المؤشرات الحيويه
   mmse            Float  
   aqp7            Float?
   rps5            Float?
@@ -73,6 +73,6 @@ model Visit {
 
 model PlatformTraffic {
   id        String   @id @default(cuid())
-  path      String   // الصفحة التي تم زيارتها (مثلاً: / , /admin)
+  path      String   // الصفحة التي تم زيارتها فالبداية ما راح نحفظ الا الصفحه الاساسيه
   createdAt DateTime @default(now())
 }

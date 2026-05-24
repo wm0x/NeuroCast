@@ -124,7 +124,6 @@ export default function ClinicalSystem() {
     <div className="w-full lg:flex-1 p-6 sm:p-10 lg:p-16 lg:min-h-screen flex flex-col justify-center border-l border-[#EAE5D9]">
       <form onSubmit={handleSubmit} className="space-y-8 text-start w-full max-w-2xl mx-auto">
         
-        {/* زر إرسال الطلب للذكاء الاصطناعي */}
         <button
           type="submit"
           disabled={loading || !isVerified}
@@ -142,7 +141,6 @@ export default function ClinicalSystem() {
           )}
         </button>
 
-        {/* قسم عرض النتيجة */}
         {result && <ClinicalReport result={result} resultRef={resultRef} />}
         
       </form>

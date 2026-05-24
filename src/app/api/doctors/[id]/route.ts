@@ -11,7 +11,6 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Id of doctor was missing" }, { status: 400 });
     }
 
-    // 1. جلب بيانات الدكتور الحقيقية من جدول User
     const doctor = await db.user.findUnique({
       where: { 
         id: id 
@@ -24,23 +23,19 @@ export async function GET(req: Request) {
       }
     });
 
-    // إذا لم يتم العثور على الدكتور، نرجع رسالة خطأ 404
     if (!doctor) {
       return NextResponse.json({ error: "Doctor Not Found" }, { status: 404 });
     }
 
-    // 2. عدّ المرضى المرتبطين بهذا الدكتور فقط من قاعدة البيانات
     const totalPatients = await db.patient.count({
       where: {
         doctorId: id,
       },
     });
 
-    // 3. الإحصائيات الأخرى
     const aiPredictions = 856; 
     const pendingReports = 12; 
 
-    // 4. إرجاع جميع البيانات في استجابة واحدة
     return NextResponse.json({ 
       doctorInfo: {
         id: doctor.id,
@@ -64,17 +59,15 @@ export async function GET(req: Request) {
 
 export async function DELETE(
     req: Request, 
-    { params }: { params: Promise<{ id: string }> } // التعديل الأول: تعريف params كـ Promise
+    { params }: { params: Promise<{ id: string }> } 
   ) {
     try {
-      // التعديل الثاني: استخدام await لاستخراج الـ id
       const { id } = await params;
   
       if (!id) {
         return NextResponse.json({ error: "Id of doctor was missing" }, { status: 400 });
       }
   
-      // التحقق من وجود الدكتور
       const existingDoctor = await db.user.findUnique({
         where: { id: id }
       });
@@ -83,14 +76,13 @@ export async function DELETE(
         return NextResponse.json({ error: "Doctor Not Found" }, { status: 404 });
       }
   
-      // حذف الدكتور
       await db.user.delete({
         where: { id: id }
       });
   
       return NextResponse.json({ 
         success: true, 
-        message: "تم حذف الدكتور بنجاح" 
+        message: "Doctor was deleted"
       }, { status: 200 });
   
     } catch (error) {
@@ -104,43 +96,37 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
   ) {
     try {
-      // 1. استخراج الآي دي بنفس الطريقة الصحيحة
       const { id } = await params;
   
       if (!id) {
         return NextResponse.json({ error: "Id of doctor was missing" }, { status: 400 });
       }
   
-      // 2. قراءة البيانات المرسلة من الواجهة الأمامية
       const body = await req.json();
       const { name, username, password } = body;
   
-      // 3. تجهيز البيانات التي سيتم تحديثها
       const updateData: any = {
         name: name,
         username: username,
       };
   
-      // تحديث الباسورد فقط إذا قام المستخدم بكتابة باسورد جديد
       if (password && password.trim() !== "") {
         updateData.password = password; 
       }
   
-      // 4. التحديث في قاعدة البيانات
       const updatedDoctor = await db.user.update({
         where: { id: id },
         data: updateData,
       });
   
-      // 5. إرجاع رسالة النجاح
       return NextResponse.json({ 
         success: true, 
-        message: "تم تعديل بيانات الدكتور بنجاح",
+        message: "Information was editing",
         doctor: updatedDoctor
       }, { status: 200 });
   
     } catch (error) {
       console.error("Error updating doctor:", error);
-      return NextResponse.json({ error: "حدث خطأ أثناء التعديل" }, { status: 500 });
+      return NextResponse.json({ error: "Error updating doctor:" }, { status: 500 });
     }
   }
