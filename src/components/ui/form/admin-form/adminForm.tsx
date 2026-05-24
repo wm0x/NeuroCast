@@ -82,7 +82,7 @@ export default function AdminForm({ onLogout }: AdminFormProps) {
 
   if (isLoading) {
     return (
-      <div className="w-full min-h-[80vh] flex flex-col items-center justify-center bg-[#FDFBF7] rounded-[2rem]">
+      <div className="w-full min-h-[80vh] flex flex-col items-center justify-center bg-[#FDFBF7] rounded-4xl">
         <FiLoader className="w-10 h-10 text-blue-600 animate-spin mb-4" />
         <h2 className="text-xl font-bold text-slate-800">
           Loading Command Center...
@@ -96,7 +96,7 @@ export default function AdminForm({ onLogout }: AdminFormProps) {
 
   if (error || !data) {
     return (
-      <div className="w-full min-h-[80vh] flex flex-col items-center justify-center bg-[#FDFBF7] rounded-[2rem]">
+      <div className="w-full min-h-[80vh] flex flex-col items-center justify-center bg-[#FDFBF7] rounded-4xl">
         <div className="text-red-500 font-bold text-xl mb-2">
           Connection Error
         </div>
@@ -106,7 +106,7 @@ export default function AdminForm({ onLogout }: AdminFormProps) {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#FDFBF7] text-slate-800 font-sans p-4 sm:p-8 rounded-[2rem] overflow-hidden flex flex-col gap-6 animate-in fade-in zoom-in-95 duration-700">
+    <div className="w-full min-h-screen bg-[#FDFBF7] text-slate-800 font-sans p-4 sm:p-8 rounded-4xl overflow-hidden flex flex-col gap-6 animate-in fade-in zoom-in-95 duration-700">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
         <div>
           <h1 className="text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">

@@ -75,9 +75,9 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen items-center justify-center px-10 bg-gradient-to-b from-[#0B1121] to-black w-full rounded-2xl mt-10 pb-32">
+    <div className="relative flex flex-col min-h-screen items-center justify-center px-10 bg-linear-to-b from-[#0B1121] to-black w-full rounded-2xl mt-10 pb-32">
       
-      <div className="absolute inset-0 w-full h-full overflow-hidden rounded-2xl pointer-events-none z-[1]">
+      <div className="absolute inset-0 w-full h-full overflow-hidden rounded-2xl pointer-events-none z-1">
         <HeroHeatmap className="w-full h-full opacity-50 mix-blend-screen" />
       </div>
 
@@ -102,7 +102,7 @@ export default function Hero() {
               </NeumorphButton>
             </ExpandableScreenTrigger>
 
-            <ExpandableScreenContent className="bg-[#FDFBF7] shadow-2xl border border-[#EAE5D9] overflow-y-auto relative z-[9999]">
+            <ExpandableScreenContent className="bg-[#FDFBF7] shadow-2xl border border-[#EAE5D9] overflow-y-auto relative z-9999">
               {renderExpandedContent()}
             </ExpandableScreenContent>
             
@@ -112,7 +112,7 @@ export default function Hero() {
       
       <ScrollToExplore />
       
-      <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-blue-900/20 via-indigo-900/20 to-blue-900/20 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-linear-to-r from-blue-900/20 via-indigo-900/20 to-blue-900/20 rounded-full blur-[100px] pointer-events-none" />
     </div>
   );
 }

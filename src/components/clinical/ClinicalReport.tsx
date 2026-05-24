@@ -31,7 +31,7 @@ export default function ClinicalReport({ result, resultRef }: Props) {
       </div>
 
       <div
-        className="bg-white border p-6 sm:p-8 rounded-[2rem] relative overflow-hidden transition-all duration-1000"
+        className="bg-white border p-6 sm:p-8 rounded-4xl relative overflow-hidden transition-all duration-1000"
         style={{
           borderColor: result.risk_stratification.color,
           boxShadow: `0 20px 50px -10px ${result.risk_stratification.color}30`,
@@ -98,7 +98,7 @@ export default function ClinicalReport({ result, resultRef }: Props) {
       </div>
 
       {result?.gene_contributions && (
-        <div className="bg-white border border-[#EAE5D9] shadow-sm p-6 sm:p-8 rounded-[2rem]">
+        <div className="bg-white border border-[#EAE5D9] shadow-sm p-6 sm:p-8 rounded-4xl">
           <div className="flex justify-between items-center mb-8">
             <Label className="block text-xs font-bold tracking-widest uppercase text-slate-500">
               Explainable AI (SHAP Contributions)

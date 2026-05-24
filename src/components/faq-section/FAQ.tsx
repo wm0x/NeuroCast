@@ -128,7 +128,7 @@ const FAQItem = ({
         </span>
 
         <div
-          className="p-1 rounded-full transition-all duration-300 relative z-10 flex-shrink-0 ml-4"
+          className="p-1 rounded-full transition-all duration-300 relative z-10 shrink-0 ml-4"
           style={
             isOpen
               ? {
@@ -208,7 +208,7 @@ function FAQ() {
           {faqData.map((item, i) => (
             <motion.div
               key={i}
-              className="h-[2px] rounded-full transition-all duration-500"
+              className="h-0.5 rounded-full transition-all duration-500"
               animate={{
                 width: openIndex === i ? 32 : 8,
                 opacity: openIndex === i ? 1 : 0.3,

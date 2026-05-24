@@ -23,7 +23,7 @@ export function CustomDrawer({
 }: CustomDrawerProps) {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="max-h-[100vh] flex flex-col mx-auto max-w-6xl">
+      <DrawerContent className="max-h-screen flex flex-col mx-auto max-w-6xl">
         
         {/* التعديل هنا: دائمًا نضع DrawerTitle لحل مشكلة Radix */}
         {title ? (

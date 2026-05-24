@@ -100,7 +100,7 @@ export default function DoctorDashboard({ onLogout }: DoctorDashboardProps) {
       </div>
 
       <div className="max-w-6xl mx-auto space-y-8">
-        <div className="relative overflow-hidden bg-gradient-to-r from-blue-700 to-indigo-800 rounded-3xl p-8 sm:p-10 shadow-2xl text-white">
+        <div className="relative overflow-hidden bg-linear-to-r from-blue-700 to-indigo-800 rounded-3xl p-8 sm:p-10 shadow-2xl text-white">
           <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-blue-400 opacity-10 rounded-full blur-2xl"></div>
 
@@ -124,7 +124,7 @@ export default function DoctorDashboard({ onLogout }: DoctorDashboardProps) {
         
         <div className="flex justify-center items-center mx-auto w-full px-4">
           <div className="group w-full max-w-sm bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-500/10 hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 flex items-center gap-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner border border-blue-100 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-16 h-16 bg-linear-to-br from-blue-50 to-indigo-50 text-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner border border-blue-100 group-hover:scale-110 transition-transform duration-300">
               <FaUsers />
             </div>
 
@@ -172,13 +172,13 @@ export default function DoctorDashboard({ onLogout }: DoctorDashboardProps) {
       </div>
 
       {isDirectoryModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onClick={() => setIsDirectoryModalOpen(false)}
           />
 
-          <div className="relative z-[110] bg-white rounded-3xl w-full max-w-4xl max-h-[85vh] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+          <div className="relative z-110 bg-white rounded-3xl w-full max-w-4xl max-h-[85vh] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50">
               <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
                 <FaUsers className="text-emerald-600" /> Patient Directory

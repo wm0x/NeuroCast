@@ -60,7 +60,7 @@ export default function InfoPanel() {
                 <div className="w-1 h-8 rounded-full bg-red-400" />
                 <div className="flex flex-col">
                   <span className="font-mono text-xs font-bold text-slate-800">AQP7</span>
-                  <span className="text-[9px] text-slate-400 truncate max-w-[80px]">Aquaporin 7</span>
+                  <span className="text-[9px] text-slate-400 truncate max-w-20">Aquaporin 7</span>
                 </div>
               </div>
               <div className="bg-red-50 text-red-600 font-mono text-[10px] font-bold px-2 py-1 rounded-md">
@@ -73,7 +73,7 @@ export default function InfoPanel() {
                 <div className="w-1 h-8 rounded-full bg-red-400" />
                 <div className="flex flex-col">
                   <span className="font-mono text-xs font-bold text-slate-800">RPS5</span>
-                  <span className="text-[9px] text-slate-400 truncate max-w-[80px]">Ribosomal Protein</span>
+                  <span className="text-[9px] text-slate-400 truncate max-w-20">Ribosomal Protein</span>
                 </div>
               </div>
               <div className="bg-red-50 text-red-600 font-mono text-[10px] font-bold px-2 py-1 rounded-md">
@@ -86,7 +86,7 @@ export default function InfoPanel() {
                 <div className="w-1 h-8 rounded-full bg-red-400" />
                 <div className="flex flex-col">
                   <span className="font-mono text-xs font-bold text-slate-800">CHD2</span>
-                  <span className="text-[9px] text-slate-400 truncate max-w-[80px]">Chromodomain</span>
+                  <span className="text-[9px] text-slate-400 truncate max-w-20">Chromodomain</span>
                 </div>
               </div>
               <div className="bg-red-50 text-red-600 font-mono text-[10px] font-bold px-2 py-1 rounded-md">
@@ -99,7 +99,7 @@ export default function InfoPanel() {
                 <div className="w-1 h-8 rounded-full bg-emerald-400" />
                 <div className="flex flex-col">
                   <span className="font-mono text-xs font-bold text-slate-800">SNX5</span>
-                  <span className="text-[9px] text-slate-400 truncate max-w-[80px]">Sorting Nexin 5</span>
+                  <span className="text-[9px] text-slate-400 truncate max-w-20">Sorting Nexin 5</span>
                 </div>
               </div>
               <div className="bg-emerald-50 text-emerald-600 font-mono text-[10px] font-bold px-2 py-1 rounded-md">
@@ -112,7 +112,7 @@ export default function InfoPanel() {
                 <div className="w-1 h-8 rounded-full bg-red-400" />
                 <div className="flex flex-col">
                   <span className="font-mono text-xs font-bold text-slate-800">ASS1</span>
-                  <span className="text-[9px] text-slate-400 truncate max-w-[80px]">Argininosuccinate</span>
+                  <span className="text-[9px] text-slate-400 truncate max-w-20">Argininosuccinate</span>
                 </div>
               </div>
               <div className="bg-red-50 text-red-600 font-mono text-[10px] font-bold px-2 py-1 rounded-md">
@@ -125,7 +125,7 @@ export default function InfoPanel() {
                 <div className="w-1 h-8 rounded-full bg-red-400" />
                 <div className="flex flex-col">
                   <span className="font-mono text-xs font-bold text-slate-800">Unchar</span>
-                  <span className="text-[9px] text-slate-400 truncate max-w-[80px]">chr12q15</span>
+                  <span className="text-[9px] text-slate-400 truncate max-w-20">chr12q15</span>
                 </div>
               </div>
               <div className="bg-red-50 text-red-600 font-mono text-[10px] font-bold px-2 py-1 rounded-md">

@@ -58,7 +58,7 @@ export default function FooterSection() {
           <div className="sticky z-0 bottom-0 left-0 px-2 md:px-10 pb-10 pt-4">
             <div className="relative w-full min-h-[500px] bg-black flex flex-col justify-between px-8 md:px-16 py-12 rounded-3xl overflow-hidden text-[#fcfcfc]">
 
-              <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="absolute inset-0 opacity-10 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]" />
 
               <FooterAmbientOrbs />
 
@@ -82,7 +82,7 @@ export default function FooterSection() {
                       (c) => (
                         <div
                           key={c}
-                          className="h-[2px] w-5 rounded-full opacity-50"
+                          className="h-0.5 w-5 rounded-full opacity-50"
                           style={{ background: c }}
                         />
                       )

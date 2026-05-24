@@ -186,7 +186,7 @@ export default function DoctorManagementDrawer() {
         <div className="w-full max-w-md mx-auto min-h-[450px] flex flex-col overflow-hidden relative rounded-2xl bg-white">
           {toast && (
             <div
-              className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 w-full rounded-full shadow-lg text-sm font-medium flex items-center gap-2 animate-in slide-in-from-bottom-8 fade-in duration-300 ${
+              className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-60 px-5 py-3 w-full rounded-full shadow-lg text-sm font-medium flex items-center gap-2 animate-in slide-in-from-bottom-8 fade-in duration-300 ${
                 toast.type === "success"
                   ? "bg-green-800 text-white shadow-emerald-500/20"
                   : "bg-red-600 text-white shadow-red-500/20"

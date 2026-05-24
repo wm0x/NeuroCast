@@ -356,7 +356,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
       </button>
 
       <CustomDrawer open={isOpen} setOpen={handleOpenChange}>
-        <div className="w-full mx-auto min-h-[100vh] flex flex-col overflow-hidden relative z-[9999] rounded-3xl bg-[#FDFBF7] border border-[#EAE5D9] shadow-2xl">
+        <div className="w-full mx-auto min-h-screen flex flex-col overflow-hidden relative z-9999 rounded-3xl bg-[#FDFBF7] border border-[#EAE5D9] shadow-2xl">
           <div className="flex bg-slate-100 h-1.5 w-full">
             <div
               className="bg-blue-600 h-full transition-all duration-500 ease-in-out"
@@ -734,7 +734,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {/* بطاقة تقييم الـ MMSE */}
-                <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-3xl text-white shadow-xl relative overflow-hidden flex flex-col justify-between">
+                <div className="bg-linear-to-br from-slate-900 to-slate-800 p-6 rounded-3xl text-white shadow-xl relative overflow-hidden flex flex-col justify-between">
                   <div className="absolute -top-4 -right-4 p-4 opacity-10">
                     <FaBrain className="w-32 h-32" />
                   </div>
@@ -788,7 +788,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                   ? "bg-rose-50 border-rose-100 text-rose-800" 
                   : "bg-blue-50 border-blue-100 text-blue-800"
               }`}>
-                <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${finalScore < 0 ? 'bg-rose-500' : 'bg-blue-500'}`}></div>
+                <div className={`w-2 h-2 rounded-full mt-2 shrink-0 ${finalScore < 0 ? 'bg-rose-500' : 'bg-blue-500'}`}></div>
                 <div className="text-sm leading-relaxed font-medium">
                   <span className="font-bold block mb-1">Understanding the Prediction:</span>
                   {finalScore < 0 ? (
