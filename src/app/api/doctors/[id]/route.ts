@@ -62,17 +62,16 @@ export async function GET(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-      // 1. استخراج الـ ID بنفس الطريقة التي استخدمتها في الـ GET
-      const { searchParams } = new URL(req.url);
-      const id = searchParams.get('id');
+      // 1. استخراج الـ ID من الـ params لأنك ترسله في مسار الرابط
+      const id = params.id;
   
       if (!id) {
         return NextResponse.json({ error: "Id of doctor was missing" }, { status: 400 });
       }
   
-      // 2. التحقق من وجود الدكتور أولاً (اختياري ولكنه أفضل)
+      // 2. التحقق من وجود الدكتور
       const existingDoctor = await db.user.findUnique({
         where: { id: id }
       });
@@ -81,12 +80,12 @@ export async function DELETE(req: Request) {
         return NextResponse.json({ error: "Doctor Not Found" }, { status: 404 });
       }
   
-      // 3. حذف الدكتور من قاعدة البيانات
+      // 3. حذف الدكتور
       await db.user.delete({
         where: { id: id }
       });
   
-      // 4. إرجاع استجابة نجاح (هذا ما سيمنع خطأ الـ JSON في الواجهة)
+      // 4. إرجاع رسالة النجاح
       return NextResponse.json({ 
         success: true, 
         message: "تم حذف الدكتور بنجاح" 
