@@ -1,67 +1,63 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db'; // استخدمت db بناءً على رسالة الخطأ لديك
-import bcrypt from 'bcrypt';
+import { db } from '@/lib/db';
 
-// تعديل بيانات دكتور
-export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: Request) {
   try {
-    // 1. إضافة await هنا لفك الـ Promise الخاص بالـ params
-    const { id } = await params; 
-    
-    const body = await req.json();
-    const { username, name, password } = body;
+    // Extract ID from the query string (?id=...)
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
 
-    // تجهيز البيانات التي سيتم تحديثها
-    let updateData: any = {};
-    if (username) updateData.username = username;
-    if (name) updateData.name = name;
-    
-    // إذا تم إرسال كلمة مرور جديدة، قم بتشفيرها
-    if (password) {
-      updateData.password = await bcrypt.hash(password, 10);
+    if (!id) {
+      return NextResponse.json({ error: "Id of doctor was missing" }, { status: 400 });
     }
 
-    const updatedDoctor = await db.user.update({
+    // 1. جلب بيانات الدكتور الحقيقية من جدول User
+    const doctor = await db.user.findUnique({
       where: { 
-        id,
-        role: 'DOCTOR', // لضمان عدم تعديل حسابات المدراء عن طريق الخطأ
+        id: id 
       },
-      data: updateData,
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        role: true,
+      }
     });
 
-    const { password: _, ...doctorData } = updatedDoctor;
-    return NextResponse.json(doctorData, { status: 200 });
+    // إذا لم يتم العثور على الدكتور، نرجع رسالة خطأ 404
+    if (!doctor) {
+      return NextResponse.json({ error: "Doctor Not Found" }, { status: 404 });
+    }
+
+    // 2. عدّ المرضى المرتبطين بهذا الدكتور فقط من قاعدة البيانات
+    const totalPatients = await db.patient.count({
+      where: {
+        doctorId: id,
+      },
+    });
+
+    // 3. الإحصائيات الأخرى
+    const aiPredictions = 856; 
+    const pendingReports = 12; 
+
+    // 4. إرجاع جميع البيانات في استجابة واحدة
+    return NextResponse.json({ 
+      doctorInfo: {
+        id: doctor.id,
+        name: doctor.name,
+        username: doctor.username,
+        role: doctor.role,
+        specialization: "Neurologist", 
+      },
+      stats: {
+        totalPatients,
+        aiPredictions,
+        pendingReports
+      }
+    }, { status: 200 });
+
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'حدث خطأ أثناء تعديل بيانات الدكتور' }, { status: 500 });
-  }
-}
-
-// حذف دكتور
-export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  try {
-    // 2. إضافة await هنا أيضاً
-    const { id } = await params;
-
-    await db.user.delete({
-      where: { 
-        id,
-        role: 'DOCTOR',
-      },
-    });
-
-    return NextResponse.json({ message: 'تم حذف الدكتور بنجاح' }, { status: 200 });
-  } catch (error: any) {
-    console.error(error);
-    
-    // معالجة خطأ Prisma في حال كان الدكتور مرتبطاً بمرضى
-    if (error.code === 'P2003') {
-      return NextResponse.json(
-        { error: 'لا يمكن حذف الدكتور لوجود مرضى مرتبطين به. قم بنقل المرضى لدكتور آخر أولاً.' }, 
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ error: 'حدث خطأ أثناء حذف الدكتور' }, { status: 500 });
+    console.error("Error fetching doctor data:", error);
+    return NextResponse.json({ error: "Error" }, { status: 500 });
   }
 }
