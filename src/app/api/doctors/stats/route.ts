@@ -1,12 +1,16 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
-export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest) {
   try {
-    const { id } = await params;
+    // جلب الـ ID من الرابط (مثال: /api/doctors/stats?id=123)
+    const id = req.nextUrl.searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: 'يرجى توفير معرف الدكتور (id)' }, { status: 400 });
+    }
 
     // 1. جلب بيانات الدكتور الحقيقية من جدول User
-    // استخدمنا select لجلب البيانات الآمنة فقط وتجاهل كلمة المرور
     const doctor = await db.user.findUnique({
       where: { 
         id: id 
@@ -31,18 +35,18 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       },
     });
 
-    // 3. الإحصائيات الأخرى (يمكنك ربطها بجداول أخرى مستقبلاً)
+    // 3. الإحصائيات الأخرى
     const aiPredictions = 856; 
     const pendingReports = 12; 
 
-    // 4. إرجاع جميع البيانات (بيانات الدكتور + الإحصائيات) في استجابة واحدة
+    // 4. إرجاع جميع البيانات
     return NextResponse.json({ 
       doctorInfo: {
         id: doctor.id,
         name: doctor.name,
         username: doctor.username,
         role: doctor.role,
-        specialization: "Neurologist", // يمكنك إضافته كحقل لقاعدة البيانات لاحقاً إذا أردت
+        specialization: "Neurologist",
       },
       stats: {
         totalPatients,
