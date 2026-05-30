@@ -186,7 +186,7 @@ function FAQ() {
     openIndex !== null ? faqData[openIndex].accentColor : "#adfa1e";
 
   return (
-    <div className="relative bg-black min-h-screen h-auto flex flex-col justify-center items-center rounded-2xl py-20 overflow-hidden">
+    <div className="relative bg-[#001d3d] min-h-screen h-auto flex flex-col justify-center items-center rounded-2xl py-20 overflow-hidden">
       <StripedPattern className="stroke-[0.3] [stroke-dasharray:8,4] opacity-30 text-gray-600" />
 
       <AmbientOrbs />

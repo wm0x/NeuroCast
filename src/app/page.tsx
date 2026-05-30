@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { AboutUsSection } from "@/components/aboutus-section/AboutUs";
 import FAQ from "@/components/faq-section/FAQ";
-import Features from "@/components/features-section/features";
+import HowItsWork from "@/components/HowItsWork-section/HowItsWork";
 import FooterSection from "@/components/footer-section/Footer";
 import Hero from "@/components/hero-section/hero";
 import NavbarDemo from "@/components/nav-section/navbar";
@@ -21,8 +21,8 @@ export default function Home() {
         <Hero />
       </div>
 
-      <section id="features">
-        <Features />
+      <section id="HowItsWork">
+        <HowItsWork />
       </section>
 
       <section className="w-full px-2 md:px-10 py-10 rounded-2xl" id="faq">

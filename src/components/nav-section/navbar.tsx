@@ -22,8 +22,8 @@ function NavbarDemo() {
       link: "#home",
     },
     {
-      name: "Features",
-      link: "#features",
+      name: "How It's Work",
+      link: "#How It's Work",
     },
     {
       name: "FAQ",
@@ -45,16 +45,6 @@ function NavbarDemo() {
           <NavBody className="rounded-xl">
             <NavbarLogo />
             <NavItems items={navItems} />
-            <div className="flex items-center gap-4" dir="ltr">
-              <NavbarButton
-                variant="primary"
-                className="rounded-lg text-black hover:bg-gray-50 flex gap-1 items-center"
-                href="/"
-              >
-                Try Now{" "}
-                <CgArrowLongRight className="mt-0.5" />
-              </NavbarButton>
-            </div>
           </NavBody>
 
           <MobileNav>

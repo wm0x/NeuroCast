@@ -27,6 +27,7 @@ export async function GET(
         id: true,
         visitDate: true,
         mmse: true,
+        futureMmse: true,
         prediction: true,
         confidence: true
       }

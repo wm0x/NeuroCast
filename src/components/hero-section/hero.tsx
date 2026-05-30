@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import CallToAction from "./top-button";
 import { ScrollToExplore } from "./ScrollToExplore";
 import NeumorphButton from "../ui/neumorph-button";
 import { IoIosArrowForward } from "react-icons/io";
@@ -81,7 +80,6 @@ export default function Hero() {
         <HeroHeatmap className="w-full h-full opacity-50 mix-blend-screen" />
       </div>
 
-      <CallToAction />
       
       <div className="text-white mt-10 text-4xl text-center items-center">
         Empowering Early Alzheimer’s Detection with AI

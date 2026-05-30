@@ -13,7 +13,6 @@ datasource db {
 enum Role {
   ADMIN
   DOCTOR
-  GUEST
 }
 
 // 2. جدول المستخدمين
@@ -22,7 +21,7 @@ model User {
   username    String    @unique
   password    String    // يتم حفظها مشفرة 
   name        String    // اسم الدكتور أو المدير
-  role        Role      @default(GUEST)
+  role        Role      @default(DOCTOR)
   totpSecret  String?   // حفظ كود المصادقة الثنائية 2FA
   createdAt   DateTime  @default(now())
   
@@ -55,8 +54,8 @@ model Visit {
   visitDate       DateTime @default(now())
   ageAtVisit      Float
   
-  // المؤشرات الحيويه
-  mmse            Float  
+  // المؤشرات الحيويه (المدخلات الحالية من الدكتور)
+  mmse            Float    // نتيجة الـ MMSE الحالية
   aqp7            Float?
   rps5            Float?
   chd2            Float?
@@ -64,9 +63,11 @@ model Visit {
   ass1            Float?
   unchar          Float?
   
-  prediction      String?  
-  confidence      Float?   
-  maeAtVisit      Float    @default(0.3907) 
+  // نتائج الذكاء الاصطناعي (المخرجات)
+  futureMmse      Float?   // الحقل الجديد: التوقع الرقمي المستقبلي للـ MMSE
+  prediction      String?  // مستوى الخطر النصي (مثلاً: High, Low)
+  confidence      Float?   // نسبة ثقة النموذج في التوقع
+  maeAtVisit      Float    @default(0.3907) // هامش الخطأ
 
   @@index([patientId, visitDate]) 
 }

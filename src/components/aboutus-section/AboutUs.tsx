@@ -36,21 +36,38 @@ const CharacterV1 = ({
 
   return (
     <motion.span
-      className={cn("inline-block text-neutral-700 ", isSpace && "w-4")}
-      style={{
-        x,
-        rotateX,
-      }}
+      className={cn("inline-block text-neutral-700", isSpace && "w-4")}
+      style={{ x, rotateX }}
     >
       {char}
     </motion.span>
   );
 };
 
+const TEAM = [
+  {
+    name: "Ali",
+    role: "Leader & Full Stack",
+    bio: "Leading the team with vision and technical expertise, building end-to-end solutions.",
+    avatar: "/MyFace.jpeg",
+  },
+  {
+    name: "Jasser",
+    role: "Core Team Member",
+    bio: "Driving innovation with dedication and technical prowess in deep learning solutions.",
+    avatar: "https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=Brian",
+  },
+  {
+    name: "Khalid",
+    role: "Core Team Member",
+    bio: "Contributing essential expertise to create meaningful healthcare impact.",
+    avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Kingston",
+  },
+];
+
 const AboutUsSection = () => {
   const targetRef = useRef<HTMLDivElement | null>(null);
 
-  // We only need useScroll for the top title animation
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start end", "end start"],
@@ -62,15 +79,14 @@ const AboutUsSection = () => {
 
   return (
     <main className="w-full bg-[#f7f7f7]">
+      {/* ── Scroll title ── */}
       <div
         ref={targetRef}
-        className="relative box-border flex h-screen items-center justify-center gap-[2vw] overflow-hidden p-[2vw]"
+        className="relative flex h-screen items-center justify-center overflow-hidden p-[2vw]"
       >
         <div
           className="font-geist w-full max-w-4xl text-center text-6xl font-bold uppercase tracking-tighter text-black"
-          style={{
-            perspective: "500px",
-          }}
+          style={{ perspective: "500px" }}
         >
           {characters.map((char, index) => (
             <CharacterV1
@@ -84,10 +100,11 @@ const AboutUsSection = () => {
         </div>
       </div>
 
-      <div className="md:-mt-[20vh] ">
+      {/* ── Text reveal ── */}
+      <div className="md:-mt-[20vh]">
         <TextReveal>
           We are three Computer Science students from FCIT at King Abdulaziz
-          University, united by a mission to transform Alzheimer’s management.
+          University, united by a mission to transform Alzheimer's management.
           Our project leverages multimodal deep learning to shift care from
           reactive diagnosis to predictive foresight. By decoding complex
           clinical data into real-time progression forecasts, we empower
@@ -96,102 +113,86 @@ const AboutUsSection = () => {
         </TextReveal>
       </div>
 
-      <div className="relative box-border flex min-h-screen flex-col items-center justify-center gap-8 overflow-hidden px-4 py-20 md:gap-12 md:px-8 lg:px-16 -translate-y-52">
+      {/* ── Team section ── */}
+      <div className="relative flex flex-col items-center gap-5 px-4 py-10 -translate-y-40 md:px-8 lg:px-16">
+        {/* Section label */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="font-geist flex items-center justify-center gap-2 text-lg font-medium tracking-tight text-neutral-600 md:gap-3 md:text-2xl"
+          className="font-geist flex items-center gap-2 text-lg font-medium tracking-tight text-neutral-600 md:gap-3 md:text-2xl"
         >
           <Bracket className="h-8 text-black md:h-12" />
-          <span className="font-geist font-medium">the team</span>
+          <span className="font-medium">the team</span>
           <Bracket className="h-8 scale-x-[-1] text-black md:h-12" />
         </motion.p>
 
-        <div className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition-all hover:shadow-xl md:p-8"
-          >
-            <div className="relative z-10">
-              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-black bg-neutral-50 text-3xl font-bold text-black">
-                <img
-                  src="https://api.dicebear.com/9.x/notionists-neutral/svg?seed=Felix"
-                  alt=""
-                  className="rounded-full"
-                />
-              </div>
-              <h3 className="font-geist mb-1 text-2xl font-bold tracking-tight text-black md:text-3xl">
-                Ali
+        {/* ── Advisor card ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="group w-full max-w-6xl overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-white p-5 shadow-sm transition-all hover:shadow-md"
+        >
+          <div className="flex items-center gap-4">
+            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 border-amber-300/60">
+              <img
+                src="https://scholar.googleusercontent.com/citations?view_op=view_photo&user=ki5_hZoAAAAJ&citpid=2"
+                alt="Dr. Asif"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <span className="mb-1 inline-block rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-amber-700">
+                Faculty Advisor
+              </span>
+              <h3 className="font-geist text-xl font-bold tracking-tight text-black">
+                Dr. Asif
               </h3>
-              <p className="mb-3 text-sm font-medium uppercase tracking-wider text-neutral-500">
-                Leader & Full Stack
-              </p>
-              <p className="font-geist text-sm leading-relaxed text-neutral-600 md:text-base">
-                Leading the team with vision and technical expertise, building
-                end-to-end solutions.
+              <p className="mt-0.5 text-sm leading-relaxed text-neutral-500">
+                Providing academic guidance and domain expertise in AI and
+                healthcare systems, ensuring our research meets the highest
+                standards of scientific rigor.
               </p>
             </div>
-            <div className="absolute -bottom-12 -right-12 h-32 w-32 rounded-full bg-neutral-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          </motion.div>
+            <div className="hidden shrink-0 text-2xl md:block">🎓</div>
+          </div>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition-all hover:shadow-xl md:p-8"
-          >
-            <div className="relative z-10">
-              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-black bg-neutral-50 text-3xl font-bold text-black">
-                <img src="https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=Brian" alt="" className="rounded-full" />
+        {/* ── Student cards ── */}
+        <div className="grid w-full max-w-6xl grid-cols-1 gap-4 md:grid-cols-3">
+          {TEAM.map((member, i) => (
+            <motion.div
+              key={member.name}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-all hover:shadow-xl"
+            >
+              <div className="relative z-10">
+                <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-black bg-neutral-50 overflow-hidden">
+                  <img
+                    src={member.avatar}
+                    alt={member.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <h3 className="font-geist mb-0.5 text-2xl font-bold tracking-tight text-black">
+                  {member.name}
+                </h3>
+                <p className="mb-2 text-xs font-medium uppercase tracking-wider text-neutral-500">
+                  {member.role}
+                </p>
+                <p className="font-geist text-sm leading-relaxed text-neutral-600">
+                  {member.bio}
+                </p>
               </div>
-              <h3 className="font-geist mb-1 text-2xl font-bold tracking-tight text-black md:text-3xl">
-                Jasser
-              </h3>
-              <p className="mb-3 text-sm font-medium uppercase tracking-wider text-neutral-500">
-                Core Team Member
-              </p>
-              <p className="font-geist text-sm leading-relaxed text-neutral-600 md:text-base">
-                Driving innovation with dedication and technical prowess in deep
-                learning solutions.
-              </p>
-            </div>
-            <div className="absolute -bottom-12 -right-12 h-32 w-32 rounded-full bg-neutral-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition-all hover:shadow-xl md:p-8"
-          >
-            <div className="relative z-10">
-              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full border-2 border-black bg-neutral-50 text-3xl font-bold text-black">
-                <img
-                  src="https://api.dicebear.com/9.x/notionists/svg?seed=Kingston"
-                  alt=""
-                  className="rounded-full"
-                />
-              </div>
-              <h3 className="font-geist mb-1 text-2xl font-bold tracking-tight text-black md:text-3xl">
-                Khalid
-              </h3>
-              <p className="mb-3 text-sm font-medium uppercase tracking-wider text-neutral-500">
-                Core Team Member
-              </p>
-              <p className="font-geist text-sm leading-relaxed text-neutral-600 md:text-base">
-                Contributing essential expertise to create meaningful healthcare
-                impact.
-              </p>
-            </div>
-            <div className="absolute -bottom-12 -right-12 h-32 w-32 rounded-full bg-neutral-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          </motion.div>
+              <div className="absolute -bottom-12 -right-12 h-32 w-32 rounded-full bg-neutral-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            </motion.div>
+          ))}
         </div>
       </div>
     </main>

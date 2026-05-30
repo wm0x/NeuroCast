@@ -72,7 +72,7 @@ export default function ClinicalReport({ result, resultRef }: Props) {
         </div>
 
         <div className="mt-8 bg-slate-50/80 p-5 rounded-2xl border border-slate-100">
-          <p className="text-slate-700 font-medium leading-relaxed flex items-start gap-3">
+          <p className="text-slate-700 font-medium leading-relaxed flex items-start gap-3 text-lg">
             <span className="text-xl">💡</span>
             {result.risk_stratification.description}
           </p>

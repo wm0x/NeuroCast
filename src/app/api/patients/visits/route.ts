@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-function getPredictionRisk(deltaMMSE: number): string {
-  if (deltaMMSE < -2) {
-    return "High Risk";
-  } else if (deltaMMSE < 0) {
-    return "Moderate Risk";
-  } else {
-    return "Low Risk";
-  }
-}
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -22,15 +12,8 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    const currentMmseValue = Number(visit.mmse);
-    const rawPredictionOutput = Number(visit.prediction); 
-    
-    let finalRiskCategory = "Unknown Risk";
 
-    finalRiskCategory = getPredictionRisk(rawPredictionOutput);
-
-    // ==========================================
-
+    // 1. تحديث أو إنشاء المريض
     const patient = await db.patient.upsert({
       where: { patientId: patientId },
       update: {
@@ -46,18 +29,23 @@ export async function POST(req: Request) {
       },
     });
 
+    // 2. إنشاء الزيارة وحفظ كل الحقول بما فيها futureMmse
     const newVisit = await db.visit.create({
       data: {
         patientId: patient.patientId,
         ageAtVisit: visit.ageAtVisit,
-        mmse: currentMmseValue, 
+        mmse: Number(visit.mmse), 
         aqp7: visit.aqp7,
         rps5: visit.rps5,
         chd2: visit.chd2,
         snx5: visit.snx5,
         ass1: visit.ass1,
         unchar: visit.unchar,
-        prediction: finalRiskCategory, 
+        
+        futureMmse: visit.futureMmse, 
+        
+        prediction: visit.prediction, 
+        
         confidence: visit.confidence,
       },
     });

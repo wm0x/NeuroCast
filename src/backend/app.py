@@ -7,7 +7,6 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# ─── البيانات المرجعية للجينات (من كود Streamlit) ───
 GENE_ORDER = [
     "11762936_x_at", "200024_PM_at", "11762358_at",
     "11763188_a_at", "11757278_x_at", "11764118_at"
@@ -25,7 +24,6 @@ GENE_META = {
 COHORT_MEANS = {p: GENE_META[p]["default"] for p in GENE_ORDER}
 COHORT_SDS   = {p: (GENE_META[p]["max_val"] - GENE_META[p]["min_val"]) / 6 for p in GENE_ORDER}
 
-# ─── تحميل النموذج ───
 model_path = os.path.join(os.path.dirname(__file__), "six_gene_model.pkl")
 if os.path.exists(model_path):
     model = joblib.load(model_path)
@@ -33,7 +31,6 @@ else:
     model = None
     print("⚠️ تحذير: ملف six_gene_model.pkl غير موجود، سيتم استخدام الحساب اليدوي.")
 
-# ─── دالة تحديد الخطر ───
 def get_risk_details(delta_mmse):
     if delta_mmse <= -2.0:
         return {
@@ -54,7 +51,6 @@ def get_risk_details(delta_mmse):
             "monitoring": "12 months", "threshold": "≥ 0.0"
         }
 
-# ─── مسار التنبؤ (API Endpoint) ───
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
@@ -66,10 +62,9 @@ def predict():
 
         X = np.array(expr_values, dtype=float).reshape(1, -1)
 
-        # الحساب باستخدام النموذج أو الحساب اليدوي (كما في كود Streamlit)
         if model is not None:
             raw_delta_mmse = float(model.predict(X)[0])
-            scaler = model.steps[0][1] # أخذ الـ Scaler من الـ Pipeline
+            scaler = model.steps[0][1] 
             X_scaled = scaler.transform(X)[0]
         else:
             X_scaled = np.array([
@@ -79,10 +74,8 @@ def predict():
             coefs = np.array([GENE_META[p]["coef"] for p in GENE_ORDER])
             raw_delta_mmse = float(np.dot(X_scaled, coefs))
 
-        # تقييد النتيجة ضمن النطاق المنطقي (Clamping)
         delta_mmse = round(max(-30.0, min(10.0, raw_delta_mmse)), 3)
         
-        # حساب مساهمات الجينات (للـ Bar Chart في React)
         coefs = np.array([GENE_META[p]["coef"] for p in GENE_ORDER])
         contribs = X_scaled * coefs
         
@@ -97,7 +90,6 @@ def predict():
 
         risk_info = get_risk_details(delta_mmse)
 
-        # تجهيز الرد (JSON) ليتطابق 100% مع ما تنتظره واجهة React
         response_data = {
             "predicted_delta_mmse": delta_mmse,
             "composite_risk_score": abs(delta_mmse),
