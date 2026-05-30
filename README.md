@@ -56,8 +56,6 @@ Ensure you have one of the following package managers installed: `npm`, `yarn`, 
 
 1. **Clone the repository:**
 ```bash
-   git clone [https://github.com/yourusername/neurocast.git](https://github.com/yourusername/neurocast.git)
-   cd neurocast
 
    npm install
    # or yarn install / pnpm install
