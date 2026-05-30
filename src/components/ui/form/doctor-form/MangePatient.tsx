@@ -45,7 +45,7 @@ const BIOMARKERS = [
   { name: "CHD2", min: 6.0, max: 11.0, step: 0.01 },
   { name: "SNX5", min: 6.0, max: 10.0, step: 0.01 },
   { name: "ASS1", min: 5.0, max: 10.0, step: 0.01 },
-  { name: "Unchar", min: 2.0, max: 7.0, step: 0.01 },
+  { name: "chr12q15", min: 2.0, max: 7.0, step: 0.01 },
 ] as const;
 
 const FormInput = ({

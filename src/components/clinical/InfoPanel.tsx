@@ -124,7 +124,7 @@ export default function InfoPanel() {
               <div className="flex items-center gap-2.5">
                 <div className="w-1 h-8 rounded-full bg-red-400" />
                 <div className="flex flex-col">
-                  <span className="font-mono text-xs font-bold text-slate-800">Unchar</span>
+                  <span className="font-mono text-xs font-bold text-slate-800">chr12q15</span>
                   <span className="text-[9px] text-slate-400 truncate max-w-20">chr12q15</span>
                 </div>
               </div>

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         chd2: visit.chd2,
         snx5: visit.snx5,
         ass1: visit.ass1,
-        unchar: visit.unchar,
+        chr12q15: visit.chr12q15,
         
         futureMmse: visit.futureMmse, 
         

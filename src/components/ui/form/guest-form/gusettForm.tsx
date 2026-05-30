@@ -298,7 +298,7 @@ export default function GuestForm({ onBackToLogin }: GuestFormProps) {
               </div>
               <div className="flex-1 bg-white border border-[#EAE5D9] shadow-sm rounded-3xl p-5 hover:shadow-md transition-shadow">
                 <Label className="block text-xs font-bold text-slate-600 tracking-wider uppercase mb-3">
-                  Unchar{" "}
+                  chr12q15{" "}
                   <span className="text-[10px] text-slate-400 lowercase ml-1 font-normal">
                     (11764118_at)
                   </span>
