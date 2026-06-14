@@ -22,16 +22,17 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   const words = children.split(" ")
 
   return (
-    <div ref={targetRef} className={cn("relative z-10 h-[200vh] -translate-y-36 text-center", className)}>
+    <div ref={targetRef} className={cn("relative z-10 h-[200vh] -translate-y-36", className)}>
       <div
         className={
-          "sticky top-0 mx-auto flex h-[50%] max-w-4xl text-center items-center bg-transparent px-4 py-20"
+          "sticky top-0 mx-auto flex h-[50%] max-w-4xl items-center justify-center bg-transparent px-4 py-20"
         }
       >
         <span
           ref={targetRef}
           className={
-            "flex flex-wrap p-5 text-lg mt-32 md:mt-0 font-bold text-black/20 text-center md:p-8 md:text-4xl dark:text-white/20"
+            // 1. Unrevealed text: Muted, deep cyan instead of gray
+            "flex flex-wrap justify-center p-5 text-lg mt-32 md:mt-0 font-bold text-cyan-900/30 dark:text-cyan-100/20 text-center md:p-8 md:text-4xl"
           }
         >
           {words.map((word, i) => {
@@ -58,11 +59,12 @@ interface WordProps {
 const Word: FC<WordProps> = ({ children, progress, range }) => {
   const opacity = useTransform(progress, range, [0, 1])
   return (
-    <span className="xl:lg-3 relative mx-1 lg:mx-1.5 text-center">
-      <span className="absolute opacity-30">{children}</span>
+    <span className="xl:lg-3 relative mx-1 lg:mx-1.5 flex justify-center text-center">
+      <span className="absolute">{children}</span>
       <motion.span
         style={{ opacity: opacity }}
-        className={"text-black dark:text-white text-center"}
+        // 2. Revealed text: Vibrant, lively teal instead of black/white
+        className={"text-teal-600 dark:text-teal-300 text-center"}
       >
         {children}
       </motion.span>

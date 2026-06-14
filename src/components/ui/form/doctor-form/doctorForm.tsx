@@ -223,7 +223,7 @@ export default function DoctorDashboard({ onLogout }: DoctorDashboardProps) {
         .tabnum { font-variant-numeric: tabular-nums; }
       `}</style>
 
-      <div className="dash-root min-h-screen w-full bg-slate-50">
+      <div className="dash-root min-h-screen w-full">
 
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
           <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">

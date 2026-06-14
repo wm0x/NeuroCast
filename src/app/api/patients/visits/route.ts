@@ -13,7 +13,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // 1. تحديث أو إنشاء المريض
     const patient = await db.patient.upsert({
       where: { patientId: patientId },
       update: {
@@ -29,7 +28,6 @@ export async function POST(req: Request) {
       },
     });
 
-    // 2. إنشاء الزيارة وحفظ كل الحقول بما فيها futureMmse
     const newVisit = await db.visit.create({
       data: {
         patientId: patient.patientId,

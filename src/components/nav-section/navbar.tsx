@@ -22,8 +22,8 @@ function NavbarDemo() {
       link: "#home",
     },
     {
-      name: "How It's Work",
-      link: "#How It's Work",
+      name: "How It Work",
+      link: "#HowItWork",
     },
     {
       name: "FAQ",

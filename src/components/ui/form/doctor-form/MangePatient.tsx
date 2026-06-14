@@ -40,12 +40,12 @@ const LOADING_STEPS = [
 ];
 
 const BIOMARKERS = [
-  { name: "AQP7", min: 2.5, max: 5.5, step: 0.01 },
-  { name: "RPS5", min: 9.5, max: 13.0, step: 0.01 },
-  { name: "CHD2", min: 6.0, max: 11.0, step: 0.01 },
-  { name: "SNX5", min: 6.0, max: 10.0, step: 0.01 },
-  { name: "ASS1", min: 5.0, max: 10.0, step: 0.01 },
-  { name: "chr12q15", min: 2.0, max: 7.0, step: 0.01 },
+  { id: "AQP7", label: "AQP7", min: 2.5, max: 5.5, step: 0.01 },
+  { id: "RPS5", label: "RPS5", min: 9.5, max: 13.0, step: 0.01 },
+  { id: "CHD2", label: "CHD2", min: 6.0, max: 11.0, step: 0.01 },
+  { id: "SNX5", label: "SNX5", min: 6.0, max: 10.0, step: 0.01 },
+  { id: "ASS1", label: "ASS1", min: 5.0, max: 10.0, step: 0.01 },
+  { id: "Unchar", label: "chr12q15", min: 2.0, max: 7.0, step: 0.01 },
 ] as const;
 
 const FormInput = ({
@@ -225,7 +225,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
 
     try {
       const geneExpressionArray = BIOMARKERS.map((b) =>
-        Number(formData[b.name as keyof typeof formData])
+        Number(formData[b.id as keyof typeof formData])
       );
 
       const currentMmseValue = Number(formData.currentMmse);
@@ -381,7 +381,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
         description:
           "Significant cognitive decline predicted. Immediate clinical intervention and comprehensive neurological evaluation are strongly recommended.",
         monitoring: "Schedule follow-up within 1-3 months.",
-        color: "#e11d48", // Rose-600
+        color: "#e11d48",
       };
     } else if (calculatedDelta < 0) {
       return {
@@ -389,7 +389,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
         description:
           "Mild cognitive deterioration expected. Close observation and lifestyle/therapeutic adjustments should be considered.",
         monitoring: "Schedule follow-up within 3-6 months.",
-        color: "#d97706", // Amber-600
+        color: "#d97706",
       };
     } else {
       return {
@@ -653,7 +653,6 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
               )}
 
               <div className="space-y-3 flex-1 overflow-y-auto pr-1.5 pb-2">
-                {/* 💡 للمرضى الموجودين مسبقاً، نطلب العمر والـ MMSE مع تلميح للقراءة السابقة */}
                 {existingPatient && (
                   <div className="bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4 mb-2 flex flex-col sm:flex-row gap-4">
                     <FormInput
@@ -685,24 +684,22 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {BIOMARKERS.map(({ name, min, max, step }) => (
+                  {BIOMARKERS.map(({ id, label, min, max, step }) => (
                     <div
-                      key={name}
+                      key={id}
                       className="bg-white border border-[#EAE5D9] shadow-sm rounded-2xl p-4 hover:border-blue-200 transition-colors"
                     >
-                      <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-3 flex justify-between">
-                        {name}{" "}
+                      <Label className="block text-[11px] font-bold text-slate-600 tracking-wider uppercase mb-3 justify-between">
+                        {label}{" "}
                         <span className="text-blue-600 bg-blue-50 px-1.5 rounded">
                           {Number(
-                            formData[name as keyof typeof formData]
+                            formData[id as keyof typeof formData]
                           ).toFixed(2)}
                         </span>
                       </Label>
                       <DualRangeSlider
-                        value={[
-                          Number(formData[name as keyof typeof formData]),
-                        ]}
-                        onValueChange={([val]) => handleSliderChange(name, val)}
+                        value={[Number(formData[id as keyof typeof formData])]}
+                        onValueChange={([val]) => handleSliderChange(id, val)}
                         min={min}
                         max={max}
                         step={step}
@@ -784,7 +781,6 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                 </div>
               </div>
 
-              {/* 💡 التوصيات السريرية وتصنيف الخطر المعتمد على الـ Delta */}
               <div
                 className="border p-5 rounded-2xl mb-6 shadow-inner transition-colors duration-500"
                 style={{
@@ -821,7 +817,7 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                 <div className="space-y-4">
                   {BIOMARKERS.map((gene) => {
                     const val = Number(
-                      formData[gene.name as keyof typeof formData]
+                      formData[gene.id as keyof typeof formData]
                     );
                     const percentage = Math.max(
                       0,
@@ -838,10 +834,10 @@ export default function AddPatientDrawer({ onSuccess }: AddPatientDrawerProps) {
                         : "bg-indigo-500";
 
                     return (
-                      <div key={gene.name} className="group">
+                      <div key={gene.id} className="group">
                         <div className="flex justify-between items-end mb-1.5">
                           <span className="text-xs font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
-                            {gene.name}
+                            {gene.label}
                           </span>
                           <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
                             {val.toFixed(2)}

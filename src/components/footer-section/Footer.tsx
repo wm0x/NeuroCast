@@ -144,8 +144,9 @@ export default function FooterSection() {
                     <ul className="space-y-3">
                       <li>
                         <a
-                          href="#"
+                          href="https://github.com/wm0x/NeuroCast"
                           className="group flex items-center gap-2.5 text-sm text-neutral-400 hover:text-white transition-all duration-200"
+                          target="_blank"
                         >
                           <FaGithub
                             className="text-base transition-colors duration-200"
